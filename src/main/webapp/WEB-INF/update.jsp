@@ -48,36 +48,50 @@ h3 {
 		el.value = el.value.replace(/[^\x21-\x7E]/g, '');
 	}
 
-	//必須項目の入力チェック
 	
 	function handleSubmit(actionUrl) {
-	
+
 	    // エラー初期化
 	    document.getElementById("asset-error").textContent = "";
 	    document.getElementById("location-error").textContent = "";
-	
+
 	    // 資産分類チェック
 	    const assetSelect = document.querySelector('select[name="assetName"]');
+
 	    if (!assetSelect.value) {
-	        document.getElementById("asset-error").textContent = "※ 資産分類が未入力です。";
+	        document.getElementById("asset-error").textContent =
+	            "※ 資産分類が未入力です。";
+
 	        assetSelect.focus();
 	        return;
 	    }
-	
+
+
 	    // 使用場所チェック
 	    const locationSelect = document.querySelector('select[name="location"]');
+
 	    if (!locationSelect.value) {
-	        document.getElementById("location-error").textContent = "※ 使用場所を選択してください。";
+	        document.getElementById("location-error").textContent =
+	            "※ 使用場所を選択してください。";
+
 	        locationSelect.focus();
 	        return;
 	    }
-	
-	    // 送信
+
+
 	    const form = document.getElementById("equipmentForm");
+
+	    if (!form.checkValidity()) {
+	        form.reportValidity();
+	        return;
+	    }
+
+
 	    form.action = actionUrl;
 	    form.method = "post";
 	    form.submit();
 	}
+	
 </script>
 </head>
 <body class="bg-light">
@@ -102,28 +116,27 @@ h3 {
 				<input type="hidden" name="mode" value="${mode}" />
 				<div class="mb-3">
 					<label class="form-label">資産分類</label> <select class="form-select"
-						name="assetName">
-						<option value="" disabled selected>-- 選択してください --</option>
+						name="assetName" required>
+						<option value="" selected>-- 選択してください --</option>
 						<c:forEach var="asset" items="${assetname}">
 							<option value="${asset.assetName}"
 								<c:if test="${mode == 'edit' && asset.assetName == update.assetName}">selected</c:if>>
 								${asset.assetName}</option>
 						</c:forEach>
 					</select>
-					<div id="asset-error" class="text-danger mt-1"
-						style="font-size: 0.9rem;"></div>
+					
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label">メーカー</label> <input type="text"
 						name="maker" class="form-control" maxlength="100"
-						value="${mode == 'edit' ? update.maker : '' }" autocomplete="off">
+						value="${mode == 'edit' ? update.maker : '' }" autocomplete="off" required>
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label">機種</label> <input type="text"
 						name="model" class="form-control" maxlength="100"
-						value="${mode == 'edit' ? update.model : '' }">
+						value="${mode == 'edit' ? update.model : '' }" required>
 				</div>
 
 				<div class="mb-3">
@@ -162,7 +175,7 @@ h3 {
 				<div class="mb-3">
 					<label class="form-label">購入日</label> <input type="date"
 						name="purchase_date" class="form-control" max="9999-12-31"
-						value="${mode == 'edit' ? update.purchaseDate : '' }">
+						value="${mode == 'edit' ? update.purchaseDate : '' }" required>
 				</div>
 
 				<div class="mb-3">
@@ -171,7 +184,7 @@ h3 {
 						title="半角数字のみで入力してください"
 						oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 7)"
 						maxlength="7"
-						value="${mode == 'edit' ? update.purchasePrice : '' }">
+						value="${mode == 'edit' ? update.purchasePrice : '' }" required>
 				</div>
 
 				<div class="mb-3">
@@ -205,10 +218,7 @@ h3 {
 				            大阪支店
 				        </option>
 				    </select>
-					<div id="location-error"
-					     class="text-danger mt-1"
-					     style="font-size: 0.9rem;">
-					</div>
+				
 				</div>
 
 				<div class="mb-3">
@@ -231,7 +241,7 @@ h3 {
 
 				<div class="mb-3">
 					<label class="form-label">備品ステータス</label> 
-						<select name="equipmentStatus" class="form-select">
+						<select name="equipmentStatus" class="form-select" required>
 						    <option value="">-- 選択してください --</option>
 						    <c:forEach var="st" items="${statusList}">
 						        <option value="${st.equipmentStatus}"
@@ -243,8 +253,7 @@ h3 {
 						        </option>
 						    </c:forEach>
 						</select>
-					<div id="asset-error" class="text-danger mt-1"
-						style="font-size: 0.9rem;"></div>
+					
 				</div>
 
 				<!-- その他 -->
