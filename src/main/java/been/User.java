@@ -5,6 +5,10 @@ public class User {
 	private String user_id;
 	private String user_name;
 	private String password;
+	private String location_cd;
+	private Boolean admin_flg;
+	private int delete_flg;
+	
 	
 	
 	
@@ -15,6 +19,7 @@ public class User {
 		this.user_id = user_id;
 		this.user_name = user_name;
 		this.password = password;
+		
 	}
 	public String getUser_id() {
 		return user_id;
@@ -33,6 +38,24 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getLocation_cd() {
+		return location_cd;
+	}
+	public void setLocation_cd(String location_cd) {
+		this.location_cd = location_cd;
+	}
+	public Boolean getAdmin_flg() {
+		return admin_flg;
+	}
+	public void setAdmin_flg(Boolean admin_flg) {
+		this.admin_flg = admin_flg;
+	}
+	public int getDelete_flg() {
+		return delete_flg;
+	}
+	public void setDelete_flg(int delete_flg) {
+		this.delete_flg = delete_flg;
 	}
 
 	
