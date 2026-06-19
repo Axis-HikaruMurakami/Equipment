@@ -7,7 +7,7 @@ public class User {
 	private String password;
 	private String location_cd;
 	private Boolean admin_flg;
-	private Boolean delete_flg;
+	private int delete_flg;
 	
 	
 	
@@ -51,10 +51,10 @@ public class User {
 	public void setAdmin_flg(Boolean admin_flg) {
 		this.admin_flg = admin_flg;
 	}
-	public Boolean getDelete_flg() {
+	public int getDelete_flg() {
 		return delete_flg;
 	}
-	public void setDelete_flg(Boolean delete_flg) {
+	public void setDelete_flg(int delete_flg) {
 		this.delete_flg = delete_flg;
 	}
 
