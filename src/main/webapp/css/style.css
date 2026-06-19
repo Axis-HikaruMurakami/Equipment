@@ -1,0 +1,173 @@
+/*--- 共通 ---*/
+body {
+	overflow-y: scroll;
+	height: 100vh;
+	background-color: #f9f9f9;
+	font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- カードスタイル（検索条件ブロックなど） --- */
+.card-block {
+	background-color: #fff;
+	padding: 24px;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	margin-bottom: 24px;
+}
+
+/* --- 入力欄の強調表示 --- */
+input.form-control,
+select.form-select {
+	border: 1px solid rgb(0, 72, 153);
+	box-shadow: none;
+}
+
+input.form-control:focus,
+select.form-select:focus {
+	border-color: rgb(0, 67, 140);
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* --- ボタンスタイル --- */
+.btn {
+	width: 150px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- テーブルレスポンシブ --- */
+.table-responsive {
+	overflow-x: auto;
+}
+
+/* --- テーブル共通スタイル --- */
+.resultTable .table {
+	table-layout: fixed; /* 固定レイアウト */
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+	border-radius: 6px;
+}
+
+/* --- ヘッダー行 --- */
+.resultTable thead th {
+	background-color: #e3f2fd !important;
+	text-align: center;
+	font-weight: bold;
+	border-bottom: 2px solid #90caf9;
+	white-space: nowrap;
+}
+
+/* --- データ行スタイル --- */
+.resultTable tbody tr:hover {
+	background-color: #f1f8ff;
+}
+
+.resultTable th,
+.resultTable td {
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 8px;
+}
+
+/* --- ホバー時に内容展開 --- */
+.resultTable td:hover {
+	white-space: normal;
+	overflow: visible;
+	position: relative;
+	background-color: #fefefe;
+	z-index: 1;
+}
+
+/* --- テーブル列幅（最適化済み）--- */
+.resultTable th:nth-child(1),
+.resultTable td:nth-child(1) {
+	width: 50px; /* 選択 */
+}
+
+.resultTable th:nth-child(2),
+.resultTable td:nth-child(2) {
+	width: 120px; /* 備品番号（拡張） */
+}
+
+.resultTable th:nth-child(3),
+.resultTable td:nth-child(3) {
+	width: 120px; /* 資産分類 */
+}
+
+.resultTable th:nth-child(4),
+.resultTable td:nth-child(4) {
+	width: 100px; /* メーカー */
+}
+
+.resultTable th:nth-child(5),
+.resultTable td:nth-child(5) {
+	width: 120px; /* 機種 */
+}
+
+.resultTable th:nth-child(6),
+.resultTable td:nth-child(6) {
+	width: 80px; /* TYPE */
+}
+
+.resultTable th:nth-child(7),
+.resultTable td:nth-child(7) {
+	width: 120px; /* S/N */
+}
+
+.resultTable th:nth-child(8),
+.resultTable td:nth-child(8) {
+	width: 300px; /* スペック（拡張） */
+}
+
+.resultTable th:nth-child(9),
+.resultTable td:nth-child(9) {
+	width: 100px; /* 購入日 */
+}
+
+.resultTable th:nth-child(10),
+.resultTable td:nth-child(10) {
+	width: 100px; /* 入経過年 */
+}
+
+.resultTable th:nth-child(11),
+.resultTable td:nth-child(11) {
+	width: 100px; /* 購入金額 */
+}
+
+.resultTable th:nth-child(12),
+.resultTable td:nth-child(12) {
+	width: 130px; /* 使用者 */
+}
+
+.resultTable th:nth-child(13),
+.resultTable td:nth-child(13) {
+	width: 130px; /* 使用場所 */
+}
+
+.resultTable th:nth-child(14),
+.resultTable td:nth-child(14) {
+	width: 220px; /* その他（備考） */
+}
+
+/* --- モバイル対応 --- */
+@media (max-width: 768px) {
+	.resultTable th,
+	.resultTable td {
+		font-size: 0.875rem;
+		padding: 6px;
+	}
+	.btn {
+		width: 100%;
+	}
+}

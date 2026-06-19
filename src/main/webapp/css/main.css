@@ -1,0 +1,134 @@
+@charset "UTF-8";/* 共通スタイル */
+body {
+  overflow-y: scroll;
+  height: 100vh;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h3 {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+  color: #000;
+}
+
+.card-block {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.btn {
+  width: 150px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+input.form-control,
+select.form-select {
+  border: 1px solid rgb(0, 72, 153);
+}
+
+input.form-control:focus,
+select.form-select:focus {
+  border-color: rgb(0, 67, 140);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* テーブル */
+.resultTable .table {
+  table-layout: fixed;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.resultTable thead th {
+  background-color: #e3f2fd !important;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #90caf9;
+}
+
+.resultTable th,
+.resultTable td {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px;
+}
+
+.resultTable tbody tr:hover {
+  background-color: #f1f8ff;
+}
+
+/* 列幅調整 */
+.resultTable th:nth-child(1),
+.resultTable td:nth-child(1) {
+  width: 60px;
+}
+
+.resultTable th:nth-child(3),
+.resultTable td:nth-child(3) {
+  width: 150px;
+}
+
+.resultTable th:nth-child(4),
+.resultTable td:nth-child(4) {
+  width: 100px;
+}
+
+.resultTable th:nth-child(5),
+.resultTable td:nth-child(5) {
+  width: 100px;
+}
+
+.resultTable th:nth-child(8),
+.resultTable td:nth-child(8) {
+  width: 150px;
+}
+
+.resultTable th:nth-child(9),
+.resultTable td:nth-child(9) {
+  width: 150px;
+}
+
+.resultTable th:nth-child(14),
+.resultTable td:nth-child(14) {
+  width: 150px;
+}
+
+.resultTable th:nth-child(15),
+.resultTable td:nth-child(15) {
+  width: 150px;
+}
+
+
+/* 選択列を固定 */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+}
+
+/* 行クリックでカーソル変更 */
+.clickable-row {
+  cursor: pointer;
+}
+
+/* 横スクロール対応 */
+.table-responsive {
+  overflow-x: auto;
+}
