@@ -15,6 +15,7 @@ public class Equipment {
 	private int		purchasePrice;
 	private String	notes;
 	private boolean	delete_equipment;
+	private String location_cd;
 	
 	public Equipment() {
 	}
@@ -104,6 +105,14 @@ public class Equipment {
 	}
 	public void setDelete_equipment(boolean delete_equipment) {
 		this.delete_equipment = delete_equipment;
+	}
+
+	public String getLocation_cd() {
+		return location_cd;
+	}
+
+	public void setLocation_cd(String location_cd) {
+		this.location_cd = location_cd;
 	}
 	
 	

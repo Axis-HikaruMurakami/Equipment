@@ -3,7 +3,7 @@ package been;
 public class Asset {
 	
 	private int assetNumber;
-	private String assetName;
+	private String assetName; 
 	
 	
 	
