@@ -49,7 +49,52 @@ public class UpdateEquipment extends HttpServlet {
 		String appCompletionDateStr	= request.getParameter("app_completion_date");
 		String equipmentStatus 		= request.getParameter("equipmentStatus");
 		String notes				= request.getParameter("other");
+		
+		
+		
+		// 必須項目チェック
+		if (assetName == null || assetName.trim().isEmpty()) {
+			request.setAttribute("error", "資産分類は必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
 
+		if (maker == null || maker.trim().isEmpty()) {
+			request.setAttribute("error", "メーカーは必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+
+		if (model == null || model.trim().isEmpty()) {
+			request.setAttribute("error", "機種は必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+
+		if (purchaseDateStr == null || purchaseDateStr.trim().isEmpty()) {
+			request.setAttribute("error", "購入日は必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+
+		if (purchasePriceStr == null || purchasePriceStr.trim().isEmpty()) {
+			request.setAttribute("error", "購入金額は必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+
+		if (location == null || location.trim().isEmpty()) {
+			request.setAttribute("error", "使用場所は必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+
+		if (equipmentStatus == null || equipmentStatus.trim().isEmpty()) {
+			request.setAttribute("error", "備品ステータスは必須です。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			return;
+		}
+		
 		int purchasePrice = 0;
 		if (purchasePriceStr != null && !purchasePriceStr.isEmpty()) {
 			purchasePrice = Integer.parseInt(purchasePriceStr);

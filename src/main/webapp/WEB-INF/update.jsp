@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
 String mode = (String) request.getAttribute("mode");
@@ -48,50 +47,6 @@ h3 {
 		el.value = el.value.replace(/[^\x21-\x7E]/g, '');
 	}
 
-	
-	function handleSubmit(actionUrl) {
-
-	    // エラー初期化
-	    document.getElementById("asset-error").textContent = "";
-	    document.getElementById("location-error").textContent = "";
-
-	    // 資産分類チェック
-	    const assetSelect = document.querySelector('select[name="assetName"]');
-
-	    if (!assetSelect.value) {
-	        document.getElementById("asset-error").textContent =
-	            "※ 資産分類が未入力です。";
-
-	        assetSelect.focus();
-	        return;
-	    }
-
-
-	    // 使用場所チェック
-	    const locationSelect = document.querySelector('select[name="location"]');
-
-	    if (!locationSelect.value) {
-	        document.getElementById("location-error").textContent =
-	            "※ 使用場所を選択してください。";
-
-	        locationSelect.focus();
-	        return;
-	    }
-
-
-	    const form = document.getElementById("equipmentForm");
-
-	    if (!form.checkValidity()) {
-	        form.reportValidity();
-	        return;
-	    }
-
-
-	    form.action = actionUrl;
-	    form.method = "post";
-	    form.submit();
-	}
-	
 </script>
 </head>
 <body class="bg-light">
@@ -107,7 +62,7 @@ h3 {
 		</c:choose>
 		<div class="card-block">
 			<!-- 登録フォーム -->
-			<form id="equipmentForm">
+			<form id="equipmentForm" method="post">
 
 				<c:if test="${mode == 'edit'}">
 					<input type="hidden" name="equipmentId"
@@ -115,8 +70,9 @@ h3 {
 				</c:if>
 				<input type="hidden" name="mode" value="${mode}" />
 				<div class="mb-3">
-					<label class="form-label">資産分類</label> <select class="form-select"
-						name="assetName" required>
+					<label class="form-label"> 資産分類<span
+						class="badge bg-danger ms-1">必須</span>
+					</label> <select class="form-select" name="assetName" required>
 						<option value="" selected>-- 選択してください --</option>
 						<c:forEach var="asset" items="${assetname}">
 							<option value="${asset.assetName}"
@@ -124,19 +80,23 @@ h3 {
 								${asset.assetName}</option>
 						</c:forEach>
 					</select>
-					
+
 				</div>
 
 				<div class="mb-3">
-					<label class="form-label">メーカー</label> <input type="text"
-						name="maker" class="form-control" maxlength="100"
-						value="${mode == 'edit' ? update.maker : '' }" autocomplete="off" required>
+					<label class="form-label"> メーカー<span
+						class="badge bg-danger ms-1">必須</span>
+					</label><input type="text" name="maker" class="form-control"
+						maxlength="100" value="${mode == 'edit' ? update.maker : '' }"
+						autocomplete="off" required>
 				</div>
 
 				<div class="mb-3">
-					<label class="form-label">機種</label> <input type="text"
-						name="model" class="form-control" maxlength="100"
-						value="${mode == 'edit' ? update.model : '' }" required>
+					<label class="form-label"> 機種<span
+						class="badge bg-danger ms-1">必須</span>
+					</label><input type="text" name="model" class="form-control"
+						maxlength="100" value="${mode == 'edit' ? update.model : '' }"
+						required>
 				</div>
 
 				<div class="mb-3">
@@ -158,30 +118,31 @@ h3 {
 
 				<div class="mb-3">
 					<label class="form-label">スペック</label> <input type="text" name="sp"
-						class="form-control" pattern="[!-~]*" title="半角英数字と記号のみで入力してください"
-						oninput="enforceHalfWidthPrintable(this)" autocomplete="off"
-						maxlength="100" value="${mode == 'edit' ? update.sp : '' }">
+						class="form-control" pattern="[ -~]*" title="半角英数字と記号のみで入力してください"
+						autocomplete="off" maxlength="100"
+						value="${mode == 'edit' ? update.sp : '' }">
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label">MACアドレス</label> <input type="text"
-						name="macad" class="form-control" pattern="[!-~]*"
-						title="半角英数字と記号のみで入力してください"
-						oninput="enforceHalfWidthPrintable(this)" autocomplete="off"
-						maxlength="100"
+						name="macad" class="form-control" maxlength="100"
+						autocomplete="off"
 						value="${mode == 'edit' ? update.macAddress : '' }">
 				</div>
 
 				<div class="mb-3">
-					<label class="form-label">購入日</label> <input type="date"
-						name="purchase_date" class="form-control" max="9999-12-31"
+					<label class="form-label"> 購入日<span
+						class="badge bg-danger ms-1">必須</span>
+					</label><input type="date" name="purchase_date" class="form-control"
+						max="9999-12-31"
 						value="${mode == 'edit' ? update.purchaseDate : '' }" required>
 				</div>
 
 				<div class="mb-3">
-					<label class="form-label">購入金額</label> <input type="text"
-						name="purchase_price" class="form-control" pattern="[0-9]+"
-						title="半角数字のみで入力してください"
+					<label class="form-label"> 購入金額<span
+						class="badge bg-danger ms-1">必須</span>
+					</label> <input type="text" name="purchase_price" class="form-control"
+						pattern="[0-9]+" title="半角数字のみで入力してください"
 						oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 7)"
 						maxlength="7"
 						value="${mode == 'edit' ? update.purchasePrice : '' }" required>
@@ -194,31 +155,27 @@ h3 {
 				</div>
 
 				<div class="mb-3">
-				    <label class="form-label">使用場所</label>
-				    <select name="location" class="form-select" required>
-				        <option value="">選択してください</option>
-				        <option value="1"
-				            ${mode == 'edit' && update.location == '本社' ? 'selected' : ''}>
-				            本社
-				        </option>
-				        <option value="2"
-				            ${mode == 'edit' && update.location == '仙台支店' ? 'selected' : ''}>
-				            仙台支店
-				        </option>
-				        <option value="3"
-				            ${mode == 'edit' && update.location == '沖縄支店' ? 'selected' : ''}>
-				            沖縄支店
-				        </option>
-				        <option value="4"
-				            ${mode == 'edit' && update.location == '福岡支店' ? 'selected' : ''}>
-				            福岡支店
-				        </option>
-				        <option value="5"
-				            ${mode == 'edit' && update.location == '大阪支店' ? 'selected' : ''}>
-				            大阪支店
-				        </option>
-				    </select>
-				
+					<label class="form-label"> 使用場所<span
+						class="badge bg-danger ms-1">必須</span>
+					</label> <select name="location" class="form-select" required>
+						<option value="">選択してください</option>
+						<option value="1"
+							${mode == 'edit' && update.location == '本社' ? 'selected' : ''}>
+							本社</option>
+						<option value="2"
+							${mode == 'edit' && update.location == '仙台支店' ? 'selected' : ''}>
+							仙台支店</option>
+						<option value="3"
+							${mode == 'edit' && update.location == '沖縄支店' ? 'selected' : ''}>
+							沖縄支店</option>
+						<option value="4"
+							${mode == 'edit' && update.location == '福岡支店' ? 'selected' : ''}>
+							福岡支店</option>
+						<option value="5"
+							${mode == 'edit' && update.location == '大阪支店' ? 'selected' : ''}>
+							大阪支店</option>
+					</select>
+
 				</div>
 
 				<div class="mb-3">
@@ -240,20 +197,20 @@ h3 {
 				</div>
 
 				<div class="mb-3">
-					<label class="form-label">備品ステータス</label> 
-						<select name="equipmentStatus" class="form-select" required>
-						    <option value="">-- 選択してください --</option>
-						    <c:forEach var="st" items="${statusList}">
-						        <option value="${st.equipmentStatus}"
-						            <c:if test="${mode == 'edit' 
+					<label class="form-label"> 備品ステータス<span
+						class="badge bg-danger ms-1">必須</span>
+					</label><select name="equipmentStatus" class="form-select" required>
+						<option value="">-- 選択してください --</option>
+						<c:forEach var="st" items="${statusList}">
+							<option value="${st.equipmentStatus}"
+								<c:if test="${mode == 'edit' 
 						                         && st.equipmentStatus == update.equipmentStatus}">
 						                selected
 						            </c:if>>
-						            ${st.equipmentStatusName}
-						        </option>
-						    </c:forEach>
-						</select>
-					
+								${st.equipmentStatusName}</option>
+						</c:forEach>
+					</select>
+
 				</div>
 
 				<!-- その他 -->
@@ -266,18 +223,22 @@ h3 {
 
 				<!-- ボタン -->
 				<div class="d-flex justify-content-center gap-4 mt-4">
+
 					<button type="submit" formaction="/Equipment/Home" formmethod="get"
 						formnovalidate class="btn btn-secondary">戻る</button>
+
 					<c:choose>
 						<c:when test="${mode == 'edit'}">
-							<button type="button" class="btn btn-primary"
-								onclick="handleSubmit('/Equipment/UpdateEquipment')">更新</button>
+							<button type="submit" formaction="/Equipment/UpdateEquipment"
+								class="btn btn-primary">更新</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn btn-primary"
-								onclick="handleSubmit('/Equipment/AddEquipment')">登録</button>
+							<button type="submit" formaction="/Equipment/AddEquipment"
+								class="btn btn-primary">登録</button>
 						</c:otherwise>
+
 					</c:choose>
+
 				</div>
 			</form>
 		</div>
