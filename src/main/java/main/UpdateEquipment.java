@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import been.Asset;
+import been.Display;
 import dao.AssetDao;
+import dao.Displaydao;
 import dao.EquipmentDao;
 import logic.EquipmentStatusValidator;
 
@@ -25,76 +29,89 @@ public class UpdateEquipment extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-		
+
 		// 備品番号
-		String equipmentId			= request.getParameter("equipmentId");
-		
+		String equipmentId = request.getParameter("equipmentId");
+
 		// 資産分類
-		String  assetName			= request.getParameter("assetName");
-		Integer assetNumber			= AssetDao.getAssetNumber(assetName);
-        
+		String assetName = request.getParameter("assetName");
+		Integer assetNumber = null;
+		if (assetName != null && !assetName.trim().isEmpty()) {
+			assetNumber = AssetDao.getAssetNumber(assetName);
+		}
+
+		List<Asset> assetname = Displaydao.assetName();
+		List<Display> statusList = Displaydao.equipmentStatusList();
+		request.setAttribute("assetname", assetname);
+		request.setAttribute("statusList", statusList);
+		request.setAttribute("mode", "edit");
+
+		Display update = null;
+		if (equipmentId != null && !equipmentId.trim().isEmpty()) {
+			update = Displaydao.update(equipmentId);
+		}
+		request.setAttribute("update", update);
+
 		// 入力値の取得
-		String maker				= request.getParameter("maker");
-		String model				= request.getParameter("model");
-		String type					= request.getParameter("type");
-		String serialnumber			= request.getParameter("serialnumber");
-		String sp					= request.getParameter("sp");
-		String macAd				= request.getParameter("macad");
-		String purchaseDateStr		= request.getParameter("purchase_date");
-		String purchasePriceStr		= request.getParameter("purchase_price");
-		String currentuser			= request.getParameter("currentuser");
-		String location				= request.getParameter("location");
-		String previousUser			= request.getParameter("previous_user");
-		String startDateStr			= request.getParameter("start_date");
-		String appCompletionDateStr	= request.getParameter("app_completion_date");
-		String equipmentStatus 		= request.getParameter("equipmentStatus");
-		String notes				= request.getParameter("other");
-		
-		
-		
+		String maker = request.getParameter("maker");
+		String model = request.getParameter("model");
+		String type = request.getParameter("type");
+		String serialnumber = request.getParameter("serialnumber");
+		String sp = request.getParameter("sp");
+		String macAd = request.getParameter("macad");
+		String purchaseDateStr = request.getParameter("purchase_date");
+		String purchasePriceStr = request.getParameter("purchase_price");
+		String currentuser = request.getParameter("currentuser");
+		String location = request.getParameter("location");
+		String previousUser = request.getParameter("previous_user");
+		String startDateStr = request.getParameter("start_date");
+		String appCompletionDateStr = request.getParameter("app_completion_date");
+		String equipmentStatus = request.getParameter("equipmentStatus");
+		String notes = request.getParameter("other");
+
 		// 必須項目チェック
 		if (assetName == null || assetName.trim().isEmpty()) {
-			request.setAttribute("error", "資産分類は必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("assetError", "資産分類は必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (maker == null || maker.trim().isEmpty()) {
-			request.setAttribute("error", "メーカーは必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("makerError", "メーカーは必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (model == null || model.trim().isEmpty()) {
-			request.setAttribute("error", "機種は必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("modelError", "機種は必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (purchaseDateStr == null || purchaseDateStr.trim().isEmpty()) {
-			request.setAttribute("error", "購入日は必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("purchaseDateError", "購入日は必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (purchasePriceStr == null || purchasePriceStr.trim().isEmpty()) {
-			request.setAttribute("error", "購入金額は必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("purchasePriceError", "購入金額は必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (location == null || location.trim().isEmpty()) {
-			request.setAttribute("error", "使用場所は必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("locationError", "使用場所は必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
 
 		if (equipmentStatus == null || equipmentStatus.trim().isEmpty()) {
-			request.setAttribute("error", "備品ステータスは必須です。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.setAttribute("equipmentStatusError", "備品ステータスは必須です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
-		
+
 		int purchasePrice = 0;
 		if (purchasePriceStr != null && !purchasePriceStr.isEmpty()) {
 			purchasePrice = Integer.parseInt(purchasePriceStr);
@@ -103,9 +120,9 @@ public class UpdateEquipment extends HttpServlet {
 		// 文字列を Date 型に変換する
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		java.sql.Date purchaseDate 		= null;
-		java.sql.Date startDate			= null;
-		java.sql.Date appCompletionDate	= null;
+		java.sql.Date purchaseDate = null;
+		java.sql.Date startDate = null;
+		java.sql.Date appCompletionDate = null;
 
 		try {
 			if (purchaseDateStr != null && !purchaseDateStr.isEmpty()) {
@@ -120,32 +137,28 @@ public class UpdateEquipment extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("error", "日付のフォーマットが正しくありません。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
-
 
 		if (assetNumber == null) {
 			request.setAttribute("error", "資産分類が正しく選択されていません。");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
-		
 
 		if (!EquipmentStatusValidator.isValid(equipmentStatus)) {
-		    request.setAttribute("error", "使用状況が不正です。");
-		    request.getRequestDispatcher("/error.jsp")
-		           .forward(request, response);
-		    return;
+			request.setAttribute("error", "使用状況が不正です。");
+			request.getRequestDispatcher("/WEB-INF/update.jsp")
+					.forward(request, response);
+			return;
 		}
 
-		
 		// DAO更新
-			EquipmentDao.updateEquipment(equipmentId, assetNumber, maker, model, type, serialnumber, sp,
-										macAd, purchaseDate, purchasePrice, currentuser, location, previousUser,
-										startDate, appCompletionDate, equipmentStatus, notes);
-		
-			
+		EquipmentDao.updateEquipment(equipmentId, assetNumber, maker, model, type, serialnumber, sp,
+				macAd, purchaseDate, purchasePrice, currentuser, location, previousUser,
+				startDate, appCompletionDate, equipmentStatus, notes);
+
 		// main.jsp にリダイレクト
 		response.sendRedirect("/Equipment/Home");
 	}
