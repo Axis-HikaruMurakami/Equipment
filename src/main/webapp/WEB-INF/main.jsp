@@ -188,10 +188,10 @@
 					<button type="submit" class="btn btn-primary me-2">一括登録</button>
 				</form>
 			</div>
-			
 
-			<div class="table-responsive mt-3">
-				<table class="table table-bordered table-sm">
+
+			<div class="table-responsive mt-3 w-100">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th class="sticky-col">選択</th>
@@ -202,11 +202,14 @@
 							<th>TYPE</th>
 							<th>S／N</th>
 							<th>スペック</th>
+							<th>MACアドレス</th>
 							<th>購入日</th>
 							<th>経過年</th>
 							<th>購入金額</th>
 							<th>使用者</th>
 							<th>使用場所</th>
+							<th>前使用者</th>
+							<th>現在申請完了日</th>
 							<th>備品ステータス</th>
 							<th>その他</th>
 						</tr>
@@ -214,8 +217,9 @@
 					<tbody>
 						<c:forEach var="item" items="${displayList}">
 							<tr class="clickable-row">
-								<td class="sticky-col"><input type="radio" name="select" value="${item.equipmentId}"></td>
-								
+								<td class="sticky-col"><input type="radio" name="select"
+									value="${item.equipmentId}"></td>
+
 								<td>${item.equipmentId}</td>
 								<td>${item.assetName}</td>
 								<td>${item.maker}</td>
@@ -223,6 +227,7 @@
 								<td>${item.type}</td>
 								<td>${item.serialnumber}</td>
 								<td>${item.sp}</td>
+								<td>${item.macAddress}</td>
 								<td><fmt:formatDate value="${item.purchaseDate}"
 										pattern="yyyy/MM/dd" /></td>
 								<td>${item.old}年</td>
@@ -230,6 +235,8 @@
 										pattern="#,###" /></td>
 								<td>${item.currentuser}</td>
 								<td>${item.location}</td>
+								<td>${item.previousUser}</td>
+								<td>${item.applyCompleteDate}</td>
 								<td>${item.equipmentStatusName}</td>
 								<td>${item.note}</td>
 							</tr>
