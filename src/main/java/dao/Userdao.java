@@ -20,9 +20,9 @@ public class Userdao {
 
 	        conn = DBManager.getConnection();
 
-	        String sql = "SELECT user_id, password, user_name"
+	        String sql = "SELECT user_id, password, user_name "
 	        		+ "FROM user "
-	        		+ "WHERE user_id = ? AND password = ? AND delete_flg = 0";
+	        		+ "WHERE user_id = ? AND password = ? AND delete_flg = 0 ";
 
 	        ps = conn.prepareStatement(sql);
 
