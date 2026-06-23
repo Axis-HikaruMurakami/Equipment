@@ -52,8 +52,8 @@ public class Displaydao {
 				    "LEFT JOIN u_sege u ON eq.equipment_id = u.equipment_id AND u.delete_u_sege = FALSE " +
 				    "LEFT JOIN location l ON eq.location_cd = l.location_cd " + 
 				    "LEFT JOIN status es ON eq.equipment_status = es.equipment_status " +
-				    "WHERE eq.delete_equipment = FALSE"+
-					"AND eq.location_cd = ?" ;
+				    "WHERE eq.delete_equipment = FALSE "+
+					"AND eq.location_cd = ? " ;
 
 
 
