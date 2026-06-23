@@ -9,10 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import been.Asset;
 import been.Display;
+import been.User;
 import dao.Displaydao;
+import dao.Userdao;
 
 @WebServlet("/DeleteServlet")
 public class DeleteServlet extends HttpServlet {
@@ -20,6 +23,13 @@ public class DeleteServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+
+    	    HttpSession session = request.getSession(false);
+    	    User user = (User) session.getAttribute("user");
+    	    
+    	    // ★ ログイン後に location_cd を取得
+    	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+    	    user.setLocation_cd(location_cd);
             // フロントエンドから送信されるパラメータを取得
             String equipmentIdStr = request.getParameter("equipmentId");
 
@@ -30,7 +40,7 @@ public class DeleteServlet extends HttpServlet {
             // 削除が成功した場合（1以上が返る場合）
             if (deletepoint > 0) {
                 // 削除後、更新された表示リストを取得
-                List<Display> displayList = Displaydao.listdisplay();
+                List<Display> displayList = Displaydao.listdisplay(location_cd);
                 
                 // 取得したリストをリクエスト属性にセット
                 request.setAttribute("displayList", displayList);

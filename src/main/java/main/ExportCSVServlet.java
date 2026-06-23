@@ -13,9 +13,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import been.Display;
+import been.User;
 import dao.Displaydao;
+import dao.Userdao;
 
 @WebServlet("/ExportCSVServlet")
 public class ExportCSVServlet extends HttpServlet {
@@ -24,8 +27,15 @@ public class ExportCSVServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+	    HttpSession session = request.getSession(false);
+	    User user = (User) session.getAttribute("user");
+	    
+	    // ★ ログイン後に location_cd を取得
+	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+	    user.setLocation_cd(location_cd);
         
-        List<Display> displayList = Displaydao.listdisplay();
+        List<Display> displayList = Displaydao.listdisplay(location_cd);
         
         if (displayList == null || displayList.isEmpty()) {
             request.setAttribute("errorMessage", "検索条件に該当する備品がありません。");

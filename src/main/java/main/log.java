@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import been.Asset;
 import been.Display;
+import been.User;
 import dao.Displaydao;
+import dao.Userdao;
 
 @WebServlet("/log")
 public class log extends HttpServlet {
@@ -46,13 +48,20 @@ public class log extends HttpServlet {
 
 	    } else {
 
-	        List<Display> displayList = Displaydao.listdisplay();
+		    HttpSession session = request.getSession(false);
+		    User user = (User) session.getAttribute("user");
+		    
+		    // ★ ログイン後に location_cd を取得
+		    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+		    user.setLocation_cd(location_cd);
+		    
+	        List<Display> displayList = Displaydao.listdisplay(location_cd);
 
 	        request.setAttribute("displayList", displayList);
 	        List<Asset> assetname = Displaydao.assetName();
 
 	        request.setAttribute("assetname", assetname);
-	        HttpSession session = request.getSession();
+	        session = request.getSession();
 	        session.setAttribute("displayList", displayList);
 
 	        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");

@@ -1,7 +1,6 @@
 package main;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -39,19 +38,19 @@ public class Home extends HttpServlet {
 	    String userLocation = user.getLocation_cd();
 	    session.setAttribute("user",user);
 	    
-	    // 全件取得
-	    List<Display> displayList = Displaydao.listdisplay();
+	   
+	    List<Display> displayList = Displaydao.listdisplay(location_cd);
+//
+//	    // location_cd が一致するものだけに絞る
+//	    List<Display> filteredList = new ArrayList<>();
+//
+//	    for (Display d : displayList) {
+//	        if (userLocation.equals(d.getLocation())) {
+//	            filteredList.add(d);
+//	        }
+//	    }
 
-	    // location_cd が一致するものだけに絞る
-	    List<Display> filteredList = new ArrayList<>();
-
-	    for (Display d : displayList) {
-	        if (userLocation.equals(d.getLocation())) {
-	            filteredList.add(d);
-	        }
-	    }
-
-	    request.setAttribute("displayList", filteredList);
+	    request.setAttribute("displayList", displayList);
 
 	    List<Asset> assetname = Displaydao.assetName();
 	    request.setAttribute("assetname", assetname);
@@ -72,9 +71,11 @@ public class Home extends HttpServlet {
 		
 		if(user!=null) {
 
-
+		    // ★ ログイン後に location_cd を取得
+		    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+		    user.setLocation_cd(location_cd);
 			
-			List<Display> displayList = Displaydao.listdisplay();
+			List<Display> displayList = Displaydao.listdisplay(location_cd);
 			
 			request.setAttribute("displayList", displayList);
 			

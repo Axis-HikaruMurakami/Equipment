@@ -14,7 +14,7 @@ import db.DBManager;
 
 public class Displaydao {
 	//一覧表示用
-	public static List<Display> listdisplay() {
+	public static List<Display> listdisplay(String location_cd) {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -50,13 +50,15 @@ public class Displaydao {
 				    "FROM equipment eq " +
 				    "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
 				    "LEFT JOIN u_sege u ON eq.equipment_id = u.equipment_id AND u.delete_u_sege = FALSE " +
-				    "LEFT JOIN location l ON eq.location_cd = l.location_cd " + // ★ 修正ポイント
+				    "LEFT JOIN location l ON eq.location_cd = l.location_cd " + 
 				    "LEFT JOIN status es ON eq.equipment_status = es.equipment_status " +
-				    "WHERE eq.delete_equipment = FALSE";
+				    "WHERE eq.delete_equipment = FALSE"+
+					"AND eq.location_cd = ?" ;
 
 
 
 			ps = conn.prepareStatement(sql);
+			ps.setString(1,location_cd);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
