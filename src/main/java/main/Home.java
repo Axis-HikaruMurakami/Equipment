@@ -40,7 +40,7 @@ public class Home extends HttpServlet {
 	    
 	   
 	    List<Display> displayList = Displaydao.listdisplay(location_cd);
-//
+	    
 //	    // location_cd が一致するものだけに絞る
 //	    List<Display> filteredList = new ArrayList<>();
 //
@@ -96,16 +96,11 @@ public class Home extends HttpServlet {
 			rd.forward(request, response);
 			
 		} else {
+			
 			//nullの場合はログインエラーでログイン画面に遷移
 		    request.setAttribute("error", "true");
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 			rd.forward(request, response);
 		}
-		
-		
-		
-		
-		
 	}
-
 }

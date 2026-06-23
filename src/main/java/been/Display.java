@@ -58,7 +58,7 @@ public class Display {
 		this.location = location;
 		this.notes = notes;
 		this.delete_u_sege = delete_u_sege;
-		this.startDate = startDate;
+		this.startDate = startDate;	
 		this.applicationCompletionDate = applicationCompletionDate;
 		this.equipmentNumber = equipmentNumber;
 		this.macAddress = macAddress;
