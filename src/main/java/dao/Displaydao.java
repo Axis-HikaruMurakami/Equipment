@@ -25,7 +25,7 @@ public class Displaydao {
 			//データベース接続
 			conn = DBManager.getConnection();
 			
-			//true	のものだけ一覧表示
+			//trueかつ自分の所属のものだけ一覧表示
 			String sql =
 				    "SELECT " +
 				    "eq.equipment_id AS equipment_id, " +
@@ -97,12 +97,11 @@ public class Displaydao {
 	}
 
 	// 検索機能：備品情報を検索する
-	public static List<Display> searchDisplay(String assetName, Date startDate, Date endDate, String currentuser, Boolean deleteFlag, String equipmentStatus) {
+	public static List<Display> searchDisplay(String location_cd, String assetName, Date startDate, Date endDate, String currentuser, Boolean deleteFlag, String equipmentStatus) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Display> displayList = new ArrayList<>();
-
 		try {
 			conn = DBManager.getConnection();
 
@@ -130,13 +129,16 @@ public class Displaydao {
 					.append("FROM equipment e ")
 					.append("LEFT JOIN asset a ON e.asset_number = a.asset_number ")
 					.append("LEFT JOIN u_sege u ON e.equipment_id = u.equipment_id AND u.delete_u_sege = FALSE ")
-					.append("LEFT JOIN location l ON u.location = l.location_cd ")
+					.append("LEFT JOIN location l ON e.location_cd = l.location_cd ")
 					.append("LEFT JOIN status s ON e.equipment_status = s.equipment_status ")
-					.append("WHERE 1=1 ");
+					.append("WHERE 1=1 ")
+					.append("AND e.location_cd = ? ");
 
 
 			List<Object> params = new ArrayList<>();
 
+			params.add(location_cd);
+			
 			// 削除フラグの追加
 			if (deleteFlag != null) {
 				sql.append(" AND e.delete_equipment = ? ");
