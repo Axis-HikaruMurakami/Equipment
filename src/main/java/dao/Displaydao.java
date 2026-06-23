@@ -27,32 +27,32 @@ public class Displaydao {
 			
 			//true	のものだけ一覧表示
 			String sql =
-			    "SELECT " +
-			    "eq.equipment_id AS equipment_id, " +
-			    "a.asset_name AS asset_name, " +
-			    "eq.maker AS maker, " +
-			    "eq.model AS model, " +
-			    "eq.TYPE AS TYPE, " +
-			    "eq.serialnumber AS serialnumber, " +
-			    "eq.sp AS spec, " +
-			    "eq.mac_ad AS mac_address, " +
-			    "eq.purchase_date AS purchase_date, " +
-			    "TIMESTAMPDIFF(YEAR, eq.purchase_date, CURDATE()) AS years_since, " +
-			    "eq.purchase_price AS purchase_price, " +
-			    "u.currentuser AS currentuser, " +
-			    "l.location_name AS location, " +
-			    "u.start_date AS use_start_date, " +
-			    "u.application_completion_date AS apply_complete_date, " +
-			    "u.previous_user AS previous_user, " +
-			    "eq.equipment_status AS equipment_status, " +
-			    "es.equipment_status_name AS equipment_status_name, " +
-			    "eq.notes AS notes " +
-			    "FROM equipment eq " +
-			    "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
-			    "LEFT JOIN u_sege u ON eq.equipment_id = u.equipment_id AND u.delete_u_sege = FALSE " +
-			    "LEFT JOIN location l ON u.location = l.location_cd " +
-			    "LEFT JOIN status es ON eq.equipment_status = es.equipment_status " +
-			    "WHERE eq.delete_equipment = FALSE";
+				    "SELECT " +
+				    "eq.equipment_id AS equipment_id, " +
+				    "a.asset_name AS asset_name, " +
+				    "eq.maker AS maker, " +
+				    "eq.model AS model, " +
+				    "eq.TYPE AS TYPE, " +
+				    "eq.serialnumber AS serialnumber, " +
+				    "eq.sp AS spec, " +
+				    "eq.mac_ad AS mac_address, " +
+				    "eq.purchase_date AS purchase_date, " +
+				    "TIMESTAMPDIFF(YEAR, eq.purchase_date, CURDATE()) AS years_since, " +
+				    "eq.purchase_price AS purchase_price, " +
+				    "u.currentuser AS currentuser, " +
+				    "l.location_name AS location, " +  // ← equipment.location_cd を参照
+				    "u.start_date AS use_start_date, " +
+				    "u.application_completion_date AS apply_complete_date, " +
+				    "u.previous_user AS previous_user, " +
+				    "eq.equipment_status AS equipment_status, " +
+				    "es.equipment_status_name AS equipment_status_name, " +
+				    "eq.notes AS notes " +
+				    "FROM equipment eq " +
+				    "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
+				    "LEFT JOIN u_sege u ON eq.equipment_id = u.equipment_id AND u.delete_u_sege = FALSE " +
+				    "LEFT JOIN location l ON eq.location_cd = l.location_cd " + // ★ 修正ポイント
+				    "LEFT JOIN status es ON eq.equipment_status = es.equipment_status " +
+				    "WHERE eq.delete_equipment = FALSE";
 
 
 
@@ -278,11 +278,11 @@ public class Displaydao {
                 "YEAR(CURDATE()) - YEAR(eq.purchase_date) AS years_since, " +
                 "eq.purchase_price AS purchase_price, " +
                 "us.currentuser AS currentuser, " +
-                "l.location_name AS location " +
+                "l.location_name AS location, " +
                 "FROM equipment eq " +
                 "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
                 "LEFT JOIN u_sege us ON eq.equipment_id = us.equipment_id " +
-                "LEFT JOIN location l ON us.location = l.location_cd " +
+                "LEFT JOIN location l ON eq.location_cd = l.location_cd " +
                 "WHERE eq.delete_equipment = true " +
                 "AND us.delete_u_sege = true";
 

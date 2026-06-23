@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -21,17 +22,44 @@ import dao.Userdao;
 public class Home extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		List<Display> displayList = Displaydao.listdisplay();
-		request.setAttribute("displayList", displayList);
-
-		List<Asset> assetname = Displaydao.assetName();
-		request.setAttribute("assetname", assetname);
-
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+	        throws ServletException, IOException {
 		
-		rd.forward(request, response);
+
+	    HttpSession session = request.getSession(false);
+	    User user = (User) session.getAttribute("user");
+	    
+	    // ★ ログイン後に location_cd を取得
+	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+	    user.setLocation_cd(location_cd);
+
+	    // セッションに保存
+	    session.setAttribute("user", user);
+
+	    // ログインユーザーの location_cd
+	    String userLocation = user.getLocation_cd();
+	    session.setAttribute("user",user);
+	    
+	    // 全件取得
+	    List<Display> displayList = Displaydao.listdisplay();
+
+	    // location_cd が一致するものだけに絞る
+	    List<Display> filteredList = new ArrayList<>();
+
+	    for (Display d : displayList) {
+	        if (userLocation.equals(d.getLocation())) {
+	            filteredList.add(d);
+	        }
+	    }
+
+	    request.setAttribute("displayList", filteredList);
+
+	    List<Asset> assetname = Displaydao.assetName();
+	    request.setAttribute("assetname", assetname);
+
+	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+	    rd.forward(request, response);
 	}
+
 
 
 	@Override
@@ -43,6 +71,8 @@ public class Home extends HttpServlet {
 		
 		
 		if(user!=null) {
+
+
 			
 			List<Display> displayList = Displaydao.listdisplay();
 			

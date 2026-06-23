@@ -20,7 +20,9 @@ public class Userdao {
 
 	        conn = DBManager.getConnection();
 
-	        String sql = "SELECT user_id, password, user_name FROM user WHERE user_id = ? AND password = ? AND delete_flg = 0";
+	        String sql = "SELECT user_id, password, user_name"
+	        		+ "FROM user "
+	        		+ "WHERE user_id = ? AND password = ? AND delete_flg = 0";
 
 	        ps = conn.prepareStatement(sql);
 
@@ -49,6 +51,40 @@ public class Userdao {
 	        DBManager.close(conn);
 	    }
 	}
+	public static String getLocation_cd(String userId) {
+
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DBManager.getConnection();
+
+	        String sql = "SELECT location_cd FROM user WHERE user_id = ? AND delete_flg = 0";
+
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, userId);
+
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getString("location_cd");
+	        } else {
+	            return null;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+
+	    } finally {
+	        DBManager.close(rs);
+	        DBManager.close(ps);
+	        DBManager.close(conn);
+	    }
+	}
+	
+
 
 
 }
