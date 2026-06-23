@@ -6,7 +6,7 @@ public class User {
 	private String user_name;
 	private String password;
 	private String location_cd;
-	private Boolean admin_flg;
+	private int admin_flg;
 	private int delete_flg;
 	
 	
@@ -45,10 +45,10 @@ public class User {
 	public void setLocation_cd(String location_cd) {
 		this.location_cd = location_cd;
 	}
-	public Boolean getAdmin_flg() {
+	public int getAdmin_flg() {
 		return admin_flg;
 	}
-	public void setAdmin_flg(Boolean admin_flg) {
+	public void setAdmin_flg(int admin_flg) {
 		this.admin_flg = admin_flg;
 	}
 	public int getDelete_flg() {
