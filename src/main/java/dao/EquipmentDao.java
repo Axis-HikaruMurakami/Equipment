@@ -36,7 +36,6 @@ public class EquipmentDao {
         try {
             conn = DBManager.getConnection();
 
-            // ---------- equipment 更新 ----------
             String sql =
                 "UPDATE equipment SET " +
                 "asset_number = ?, " +
@@ -66,13 +65,12 @@ public class EquipmentDao {
             ps.setInt(9, purchasePrice);
             ps.setString(10, equipmentStatus);
             ps.setString(11, notes);
-            ps.setBoolean(12, false);     // delete_equipment
-            ps.setString(13, location);   // location_cd
+            ps.setBoolean(12, false);     
+            ps.setString(13, location);   
             ps.setString(14, equipmentId);
             ps.executeUpdate();
             ps.close();
 
-            // ---------- u_sege 更新 ----------
             sql =
                 "UPDATE u_sege SET " +
                 "currentuser = ?, " +
