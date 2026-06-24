@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import been.Display;
 import been.Location;
 import been.User;
 import db.DBManager;
@@ -196,43 +195,43 @@ public class AdminDisplayDao {
 		return locationList;
 	}
 
-	// 削除履歴：削除された備品の情報を取得する
+	/*// 削除履歴：削除された備品の情報を取得する
 	public static List<Display> deledis() {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		// 検索結果を格納するリスト
 		List<Display> displayList = new ArrayList<>();
-
+	
 		try {
 			conn = DBManager.getConnection();
-
+	
 			// 削除された備品の履歴を取得するためのSQLクエリ
 			String sql =
 				"SELECT " +
-                "eq.equipment_id AS equipment_id, " +
-                "a.asset_name AS asset_name, " +
-                "eq.maker AS maker, " +
-                "eq.model AS model, " +
-                "eq.TYPE AS TYPE, " +
-                "eq.serialnumber AS S_N, " +
-                "eq.sp AS spec, " +
-                "eq.purchase_date AS purchase_date, " +
-                "YEAR(CURDATE()) - YEAR(eq.purchase_date) AS years_since, " +
-                "eq.purchase_price AS purchase_price, " +
-                "us.currentuser AS currentuser, " +
-                "l.location_name AS location, " +
-                "FROM equipment eq " +
-                "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
-                "LEFT JOIN u_sege us ON eq.equipment_id = us.equipment_id " +
-                "LEFT JOIN location l ON eq.location_cd = l.location_cd " +
-                "WHERE eq.delete_equipment = true " +
-                "AND us.delete_u_sege = true";
-
-
+	            "eq.equipment_id AS equipment_id, " +
+	            "a.asset_name AS asset_name, " +
+	            "eq.maker AS maker, " +
+	            "eq.model AS model, " +
+	            "eq.TYPE AS TYPE, " +
+	            "eq.serialnumber AS S_N, " +
+	            "eq.sp AS spec, " +
+	            "eq.purchase_date AS purchase_date, " +
+	            "YEAR(CURDATE()) - YEAR(eq.purchase_date) AS years_since, " +
+	            "eq.purchase_price AS purchase_price, " +
+	            "us.currentuser AS currentuser, " +
+	            "l.location_name AS location, " +
+	            "FROM equipment eq " +
+	            "LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
+	            "LEFT JOIN u_sege us ON eq.equipment_id = us.equipment_id " +
+	            "LEFT JOIN location l ON eq.location_cd = l.location_cd " +
+	            "WHERE eq.delete_equipment = true " +
+	            "AND us.delete_u_sege = true";
+	
+	
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-
+	
 			// 検索結果を取得してDisplayオブジェクトにセット
 			while (rs.next()) {
 				Display display = new Display();
@@ -248,10 +247,10 @@ public class AdminDisplayDao {
 				display.setPurchasePrice(rs.getInt("purchase_price"));
 				display.setCurrentuser(rs.getString("currentuser"));
 				display.setLocation(rs.getString("location"));
-
+	
 				displayList.add(display);
 			}
-
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -259,100 +258,54 @@ public class AdminDisplayDao {
 			DBManager.close(ps);
 			DBManager.close(conn);
 		}
-
+	
 		return displayList;
-	}
+	}*/
 
-	//選択された行の削除フラグをtrueに変更
-	public static int delete(String equipmentId) {
+	//選択された行の削除フラグをtrueに変更(user)
+	public static int delete(String userId) {
 		Connection conn = null;
-		PreparedStatement psEquipment = null;
-		PreparedStatement psUsage = null;
-		int totalUpdated = 0;
-
+		PreparedStatement ps = null;
+		int updated = 0;
+		
 		try {
 			conn = DBManager.getConnection();
-			conn.setAutoCommit(false); // トランザクション開始
 
 			// equipmentテーブルの更新
-			String sqlEquipment = "UPDATE equipment SET delete_equipment = TRUE WHERE equipment_id = ?";
-			psEquipment = conn.prepareStatement(sqlEquipment);
-			psEquipment.setString(1, equipmentId);
-			int updatedEquipment = psEquipment.executeUpdate();
-
-			// u_segeテーブルの更新
-			String sqlUsage = "UPDATE u_sege SET delete_u_sege = TRUE WHERE equipment_id = ?";
-			psUsage = conn.prepareStatement(sqlUsage);
-			psUsage.setString(1, equipmentId);
-			int updatedUsage = psUsage.executeUpdate();
-
-			conn.commit();
-			totalUpdated = updatedEquipment + updatedUsage;
+			String sql = "UPDATE user SET delete_flg = TRUE WHERE user_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			updated = ps.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			if (conn != null) {
-				try {
-					conn.rollback();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		} finally {
-			DBManager.close(psEquipment);
-			DBManager.close(psUsage);
-			if (conn != null) {
-				try {
-					conn.setAutoCommit(true);
-					DBManager.close(conn);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 
-		return totalUpdated;
+	        e.printStackTrace();
+
+	    } finally {
+
+	        DBManager.close(ps);
+
+	        if (conn != null) {
+	            DBManager.close(conn);
+	        }
+	    }
+
+		return updated;
 	}
 
-	public static Display update(String id) {
+	public static User update(String id) {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Display update = null;
+		User update = null;
 
 		try {
 			conn = DBManager.getConnection();
 
-			String sql =
-				"SELECT " +
-				"eq.equipment_id, " +
-				"a.asset_name, " +
-				"eq.maker, " +
-				"eq.model, " +
-				"eq.`TYPE`, " +
-				"eq.serialnumber, " +
-				"eq.sp, " +
-				"eq.mac_ad, " +
-				"eq.purchase_date, " +
-				"eq.purchase_price, " +
-				"us.currentuser, " +
-				"us.previous_user, " +
-				"l.location_name AS location, " +
-				"us.start_date, " +
-				"us.application_completion_date, " +
-				"eq.equipment_status AS equipment_status, " +
-				"es.equipment_status_name AS equipment_status_name, " +
-				"eq.notes " +
-				"FROM equipment eq " +
-				"LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
-				"LEFT JOIN u_sege us ON eq.equipment_id = us.equipment_id " +
-				"LEFT JOIN location l ON us.location = l.location_cd " +
-				"LEFT JOIN status es " +
-				"  ON eq.equipment_status = es.equipment_status " +
-				"WHERE eq.delete_equipment = false " +
-				"  AND us.delete_u_sege = false " +
-				"  AND eq.equipment_id = ?" ;
+			String sql ="SELECT user_id,user_name,password,location_cd,admin_flg "
+					+ "FROM user "
+					+ "WHERE user_id = ?";
 
 
 			ps = conn.prepareStatement(sql);
@@ -360,25 +313,12 @@ public class AdminDisplayDao {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				update = new Display();
-				update.setEquipmentId(rs.getString("equipment_id"));
-				update.setAssetName(rs.getString("asset_name"));
-				update.setMaker(rs.getString("maker"));
-				update.setModel(rs.getString("model"));
-				update.setType(rs.getString("TYPE"));
-				update.setSerialnumber(rs.getString("serialnumber"));
-				update.setSp(rs.getString("sp"));
-				update.setMacAddress(rs.getString("mac_ad"));
-				update.setPurchaseDate(rs.getDate("purchase_date"));
-				update.setPurchasePrice(rs.getInt("purchase_price"));
-				update.setCurrentuser(rs.getString("currentuser"));
-				update.setPreviousUser(rs.getString("previous_user"));
-				update.setLocation(rs.getString("location"));
-				update.setStartDate(rs.getDate("start_date"));
-				update.setApplicationCompletionDate(rs.getDate("application_completion_date"));
-				update.setEquipmentStatusName(rs.getString("equipment_status_name"));
-				update.setEquipmentStatus(rs.getString("equipment_status"));
-				update.setNotes(rs.getString("notes"));
+				update = new User();
+				update.setUser_id(rs.getString("user_id"));
+				update.setUser_name(rs.getString("user_name"));
+				update.setPassword(rs.getString("password"));
+				update.setLocation_cd(rs.getString("location_cd"));
+				update.setAdmin_flg(rs.getInt("admin_flg"));
 			}
 
 		} catch (Exception e) {
@@ -392,37 +332,6 @@ public class AdminDisplayDao {
 		return update;
 	}
 
-	// 備品ステータスマスタ取得
-	public static List<Display> equipmentStatusList() {
-	    List<Display> list = new ArrayList<>();
-	    Connection conn = null;
-	    PreparedStatement ps = null;
-	    ResultSet rs = null;
-
-	    try {
-	        conn = DBManager.getConnection();
-	        String sql =
-	        	"SELECT equipment_status, equipment_status_name " +
-	            "FROM status " +
-	            "ORDER BY disp_order";
-
-	        ps = conn.prepareStatement(sql);
-	        rs = ps.executeQuery();
-
-	        while (rs.next()) {
-	            Display d = new Display();
-	            d.setEquipmentStatus(rs.getString("equipment_status"));       // コード
-	            d.setEquipmentStatusName(rs.getString("equipment_status_name"));// 表示名
-	            list.add(d);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        DBManager.close(rs);
-	        DBManager.close(ps);
-	        DBManager.close(conn);
-	    }
-	    return list;
+	
 	}
 
-}

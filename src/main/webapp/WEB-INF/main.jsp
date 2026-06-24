@@ -29,7 +29,7 @@
 		<div class="col-12 text-end mt-2">
 			<p>管理者モード</p>
 			<form action="/Equipment/AdminHome" method="get">
-				<input type="submit" value="ログアウト" class="btn btn-danger">
+				<input type="submit" value="管理者モード" class="btn btn-danger">
 			</form>
 		</div>
 		<!-- 上部のボタン群（CSV出力、削除履歴、全権表示）-->

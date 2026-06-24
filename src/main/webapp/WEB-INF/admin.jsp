@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>備品表示画面</title>
+<title>ユーザ表示画面</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -16,7 +16,7 @@
 <body class="bg-light">
 
 	<div class="container py-4">
-		<h3 class="text-center mb-4">備品表示画面</h3>
+		<h3 class="text-center mb-4">ユーザ表示画面</h3>
 
 		<!-- ログインユーザー表示 -->
 		<div class="col-12 text-end mt-2">
@@ -75,7 +75,7 @@
 			</div>
 		</form>
 
-		<script>
+		<!-- <script>いらないが念のため一時的に残しておく
 			// IME入力対応：全角・半角合わせて9文字まで入力制限
 			const currentuserInput = document.getElementById('currentuser');
 			let isComposing = false;
@@ -96,7 +96,7 @@
 					currentuserInput.value = currentuserInput.value.slice(0, 9);
 				}
 			});
-		</script>
+		</script> -->
 
 		<script>
 			function submitForm(mode){
@@ -111,10 +111,10 @@
 				//フォームを新規に作成してPOST送信
 				const form = document.createElement("form")
 				form.method = "POST";
-				form.action = "/Equipment/AddUpdate";
+				form.action = "/Equipment/AdminAddUpdate";
 				
-				//修正ボタンなら選択された備品番号を送る
-				if(mode === 'edit'){
+				//修正ボタンなら選択されたユーザIDを送る
+				if(mode === 'adminUpdate'){
 					const input = document.createElement("input")
 					input.type = "hidden";
 					input.name = "id";
@@ -148,11 +148,11 @@
 				<button type="button" class="btn btn-primary me-2"
 					onclick="submitForm('add')">追加</button>
 				<button type="button" class="btn btn-primary me-2"
-					onclick="submitForm('edit')">修正</button>
+					onclick="submitForm('adminUpdate')">修正</button>
 
-				<form action="/Equipment/DeleteServlet" method="post"
+				<form action="/Equipment/AdminDeleteServlet" method="post"
 					style="display: inline;" id="deleteForm">
-					<input type="hidden" name="equipmentId" value=""
+					<input type="hidden" name="userId" value=""
 						id="deleteEquipmentId" />
 					<button type="button" class="btn btn-primary me-2"
 						onclick="confirmDelete()">削除</button>
@@ -170,44 +170,32 @@
 					<thead>
 						<tr>
 							<th class="sticky-col">選択</th>
-							<th>備品番号</th>
-							<th>資産分類</th>
-							<th>メーカー</th>
-							<th>機種</th>
-							<th>TYPE</th>
-							<th>S／N</th>
-							<th>スペック</th>
-							<th>購入日</th>
-							<th>経過年</th>
-							<th>購入金額</th>
-							<th>使用者</th>
-							<th>使用場所</th>
-							<th>備品ステータス</th>
-							<th>その他</th>
+							<th>ユーザID</th>
+							<th>ユーザ名</th>
+							<th>所属</th>
+							<th>管理者権限</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="item" items="${displayList}">
 							<tr class="clickable-row">
 								<td class="sticky-col"><input type="radio" name="select"
-									value="${item.equipmentId}"></td>
-
-								<td>${item.equipmentId}</td>
-								<td>${item.assetName}</td>
-								<td>${item.maker}</td>
-								<td>${item.model}</td>
-								<td>${item.type}</td>
-								<td>${item.serialnumber}</td>
-								<td>${item.sp}</td>
-								<td><fmt:formatDate value="${item.purchaseDate}"
-										pattern="yyyy/MM/dd" /></td>
-								<td>${item.old}年</td>
-								<td><fmt:formatNumber value="${item.purchasePrice}"
-										pattern="#,###" /></td>
-								<td>${item.currentuser}</td>
-								<td>${item.location}</td>
-								<td>${item.equipmentStatusName}</td>
-								<td>${item.note}</td>
+									value="${item.user_id}"></td>
+								<td>${item.user_id}</td>
+								<td>${item.user_name}</td>
+								<td><c:choose>
+										<c:when test="${item.location_cd == 1}">本社</c:when>
+										<c:when test="${item.location_cd == 2}">仙台支店</c:when>
+										<c:when test="${item.location_cd == 3}">沖縄支店</c:when>
+										<c:when test="${item.location_cd == 4}">福岡支店</c:when>
+										<c:when test="${item.location_cd == 5}">大阪支店</c:when>
+										<c:otherwise>不明</c:otherwise>
+									</c:choose></td>
+									
+								<td><c:choose>
+										<c:when test="${item.admin_flg == 1}">あり</c:when>
+										<c:otherwise>なし</c:otherwise>
+									</c:choose></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -228,7 +216,7 @@
 		});
 	});
 
-	function setAction(actionUrl) {
+	/* function setAction(actionUrl) {おそらくいらないと思われる
 		const radios = document.getElementsByName('select');
 		let selectedValue = null;
 		for (const radio of radios) {
@@ -248,7 +236,7 @@
 		const form = document.getElementById('actionForm');
 		form.action = actionUrl;  // 遷移先サーブレットを設定
 		return true;
-	}
+	} */
 	
         // 削除ボタンがクリックされた時の確認ダイアログ
         function confirmDelete() {
