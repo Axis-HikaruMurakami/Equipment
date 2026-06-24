@@ -10,7 +10,7 @@ import db.DBManager;
 public class EquipmentDao {
 
 
-	
+//機器内容更新
     public static void updateEquipment(
             String equipmentId,
             int assetNumber,
