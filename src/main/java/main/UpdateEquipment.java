@@ -153,6 +153,9 @@ public class UpdateEquipment extends HttpServlet {
 					.forward(request, response);
 			return;
 		}
+		
+		System.out.println(location);
+		System.out.println(currentuser);
 
 		// DAO更新
 		EquipmentDao.updateEquipment(equipmentId, assetNumber, maker, model, type, serialnumber, sp,

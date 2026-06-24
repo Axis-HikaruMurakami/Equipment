@@ -10,45 +10,135 @@ import db.DBManager;
 public class EquipmentDao {
 
     // 更新処理
+//    public static void updateEquipment(
+//    		String	equipmentId,
+//            int		assetNumber,
+//            String	maker,
+//            String	model,
+//            String	type,
+//            String	serialnumber,
+//            String	sp,
+//            String	macAd,
+//            Date	purchaseDate,
+//            int		purchasePrice,
+//            String	currentuser,
+//            String	location,
+//            String	previousUser,
+//            Date	startDate,
+//            Date	appCompletionDate,
+//            String	equipmentStatus,
+//            String	notes) {
+//
+//        Connection conn			= null;
+//        PreparedStatement ps	= null;
+//
+//        try {
+//            conn = DBManager.getConnection();
+//
+//            String sql =
+//				"UPDATE equipment SET " +
+//				"asset_number = ?, " +
+//				"maker = ?, " +
+//				"model = ?, " +
+//				"TYPE = ?, " +
+//				"serialnumber = ?, " +
+//				"sp = ?, " +
+//				"mac_ad = ?, " +
+//				"purchase_date = ?, " +
+//				"purchase_price = ?, " +
+//				"equipment_status = ?, " +
+//				"notes = ?, " +
+//				"delete_equipment = ?, " +
+//				"location_cd = ? " +
+//				"WHERE equipment_id = ?";
+//
+//            ps = conn.prepareStatement(sql);
+//            ps.setInt(1, assetNumber);
+//            ps.setString(2, maker);
+//            ps.setString(3, model);
+//            ps.setString(4, type);
+//            ps.setString(5, serialnumber);
+//            ps.setString(6, sp);
+//            ps.setString(7, macAd);
+//            ps.setDate(8, purchaseDate);
+//            ps.setInt(9, purchasePrice);
+//            ps.setString(10, equipmentStatus);
+//            ps.setString(11, notes);
+//            ps.setBoolean(12, false);     // delete_equipment
+//            ps.setString(13, location);   // location_cd
+//            ps.setString(14, equipmentId); // WHERE equipment_id
+//            ps.executeUpdate();           // ← 必須
+//            ps.close();
+//
+//
+//            sql =
+//				"UPDATE u_sege SET " +
+//				"currentuser = ?, " +
+//				"previous_user = ?, " +
+//				"location = ?, " +
+//				"start_date = ?, " +
+//				"application_completion_date = ? " +
+//				"WHERE equipment_id = ? ";
+//
+//            ps = conn.prepareStatement(sql);
+//            ps.setString(1, equipmentId);
+//            ps.setString(2, currentuser);
+//            ps.setString(3, previousUser);
+//            ps.setString(4, location);
+//            ps.setDate(5, startDate);
+//            ps.setDate(6, appCompletionDate);
+//            ps.executeUpdate();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            DBManager.close(ps);
+//            DBManager.close(conn);
+//        }
+//    }
+	
     public static void updateEquipment(
-            String	equipmentId,
-            int		assetNumber,
-            String	maker,
-            String	model,
-            String	type,
-            String	serialnumber,
-            String	sp,
-            String	macAd,
-            Date	purchaseDate,
-            int		purchasePrice,
-            String	currentuser,
-            String	location,
-            String	previousUser,
-            Date 	startDate,
-            Date	appCompletionDate,
-            String	equipmentStatus,
-            String	notes) {
+            String equipmentId,
+            int assetNumber,
+            String maker,
+            String model,
+            String type,
+            String serialnumber,
+            String sp,
+            String macAd,
+            Date purchaseDate,
+            int purchasePrice,
+            String currentuser,
+            String location,
+            String previousUser,
+            Date startDate,
+            Date appCompletionDate,
+            String equipmentStatus,
+            String notes) {
 
-        Connection conn			= null;
-        PreparedStatement ps	= null;
+        Connection conn = null;
+        PreparedStatement ps = null;
 
         try {
             conn = DBManager.getConnection();
 
+            // ---------- equipment 更新 ----------
             String sql =
-				"UPDATE equipment SET " +
-				"asset_number = ?, " +
-				"maker = ?, " +
-				"model = ?, " +
-				"TYPE = ?, " +
-				"serialnumber = ?, " +
-				"sp = ?, " +
-				"mac_ad = ?, " +
-				"purchase_date = ?, " +
-				"purchase_price = ?, " +
-				"equipment_status = ?, " +
-				"notes = ? " +
-				"WHERE equipment_id = ?";
+                "UPDATE equipment SET " +
+                "asset_number = ?, " +
+                "maker = ?, " +
+                "model = ?, " +
+                "TYPE = ?, " +
+                "serialnumber = ?, " +
+                "sp = ?, " +
+                "mac_ad = ?, " +
+                "purchase_date = ?, " +
+                "purchase_price = ?, " +
+                "equipment_status = ?, " +
+                "notes = ?, " +
+                "delete_equipment = ?, " +
+                "location_cd = ? " +
+                "WHERE equipment_id = ?";
 
             ps = conn.prepareStatement(sql);
             ps.setInt(1, assetNumber);
@@ -62,19 +152,21 @@ public class EquipmentDao {
             ps.setInt(9, purchasePrice);
             ps.setString(10, equipmentStatus);
             ps.setString(11, notes);
-            ps.setString(12, equipmentId);
+            ps.setBoolean(12, false);     // delete_equipment
+            ps.setString(13, location);   // location_cd
+            ps.setString(14, equipmentId);
             ps.executeUpdate();
-
             ps.close();
 
+            // ---------- u_sege 更新 ----------
             sql =
-				"UPDATE u_sege SET " +
-				"currentuser = ?, " +
-				"previous_user = ?, " +
-				"location = ?, " +
-				"start_date = ?, " +
-				"application_completion_date = ? " +
-				"WHERE equipment_id = ?";
+                "UPDATE u_sege SET " +
+                "currentuser = ?, " +
+                "previous_user = ?, " +
+                "location = ?, " +
+                "start_date = ?, " +
+                "application_completion_date = ? " +
+                "WHERE equipment_id = ?";
 
             ps = conn.prepareStatement(sql);
             ps.setString(1, currentuser);
@@ -92,6 +184,7 @@ public class EquipmentDao {
             DBManager.close(conn);
         }
     }
+
 
 
     // 新規登録
@@ -121,7 +214,7 @@ public class EquipmentDao {
             conn = DBManager.getConnection();
 
             String sql =
-				"INSERT INTO equipment (" +
+				"INSERT INTO equipment ( " +
 				"equipment_id, " +
 				"asset_number, " +
 				"maker, " +
@@ -149,8 +242,8 @@ public class EquipmentDao {
             ps.setString(8, macAd);
             ps.setDate(9, purchaseDate);
             ps.setInt(10, purchasePrice);
-            ps.setString(11, equipmentStatus);
-            ps.setString(12, notes);
+            ps.setString(11, notes);
+            ps.setString(12, equipmentStatus);
             ps.setBoolean(13, false);
             ps.setString(14, location);
             
@@ -172,7 +265,7 @@ public class EquipmentDao {
             ps.setString(1, equipmentId);
             ps.setString(2, currentuser);
             ps.setString(3, previousUser);
-            ps.setString(4,location);
+            ps.setString(4, location);
             ps.setDate(5, startDate);
             ps.setDate(6, appCompletionDate);
             ps.executeUpdate();

@@ -185,19 +185,19 @@ h3 {
 
 				<div class="mb-3">
 					<label class="form-label"> 使用場所<span
-						class="badge bg-danger ms-1">必須</span></label> <select name="location"
+						class="badge bg-danger ms-1">必須</span></label> <select name="location" id="location_cd"
 						class="form-select">
 						<option value="">選択してください</option>
 						<option value="1"
-							<c:if test="${param.location == '1' or (param.location == null and mode == 'edit' and update.location == '本社')}">selected</c:if>>本社</option>
+							<c:if test="${param.location == '1' or (param.location == null and mode == 'edit' and update.location == '1')}">selected</c:if>>本社</option>
 						<option value="2"
-							<c:if test="${param.location == '2' or (param.location == null and mode == 'edit' and update.location == '仙台支店')}">selected</c:if>>仙台支店</option>
+							<c:if test="${param.location == '2' or (param.location == null and mode == 'edit' and update.location == '2')}">selected</c:if>>仙台支店</option>
 						<option value="3"
-							<c:if test="${param.location == '3' or (param.location == null and mode == 'edit' and update.location == '沖縄支店')}">selected</c:if>>沖縄支店</option>
+							<c:if test="${param.location == '3' or (param.location == null and mode == 'edit' and update.location == '3')}">selected</c:if>>沖縄支店</option>
 						<option value="4"
-							<c:if test="${param.location == '4' or (param.location == null and mode == 'edit' and update.location == '福岡支店')}">selected</c:if>>福岡支店</option>
+							<c:if test="${param.location == '4' or (param.location == null and mode == 'edit' and update.location == '4')}">selected</c:if>>福岡支店</option>
 						<option value="5"
-							<c:if test="${param.location == '5' or (param.location == null and mode == 'edit' and update.location == '大阪支店')}">selected</c:if>>大阪支店</option>
+							<c:if test="${param.location == '5' or (param.location == null and mode == 'edit' and update.location == '5')}">selected</c:if>>大阪支店</option>
 					</select>
 
 					<c:if test="${not empty locationError}">

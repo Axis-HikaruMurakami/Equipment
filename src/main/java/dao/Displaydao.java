@@ -399,7 +399,7 @@ public class Displaydao {
 				"eq.purchase_price, " +
 				"us.currentuser, " +
 				"us.previous_user, " +
-				"l.location_name AS location, " +
+				"eq.location_cd AS location, " +
 				"us.start_date, " +
 				"us.application_completion_date, " +
 				"eq.equipment_status AS equipment_status, " +
@@ -408,7 +408,7 @@ public class Displaydao {
 				"FROM equipment eq " +
 				"LEFT JOIN asset a ON eq.asset_number = a.asset_number " +
 				"LEFT JOIN u_sege us ON eq.equipment_id = us.equipment_id " +
-				"LEFT JOIN location l ON us.location = l.location_cd " +
+				"LEFT JOIN location l ON eq.location_cd = l.location_cd " +
 				"LEFT JOIN status es " +
 				"  ON eq.equipment_status = es.equipment_status " +
 				"WHERE eq.delete_equipment = false " +
