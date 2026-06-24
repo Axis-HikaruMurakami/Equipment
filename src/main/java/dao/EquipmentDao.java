@@ -133,8 +133,10 @@ public class EquipmentDao {
 				"purchase_date, " +
 				"purchase_price, " +
 				"equipment_status, " +
-				"notes " +
-				") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				"notes, " +
+				"delete_equipment, " +
+				"location_cd " +
+				") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
             ps = conn.prepareStatement(sql);
             ps.setString(1, equipmentId);
@@ -149,6 +151,9 @@ public class EquipmentDao {
             ps.setInt(10, purchasePrice);
             ps.setString(11, equipmentStatus);
             ps.setString(12, notes);
+            ps.setBoolean(13, false);
+            ps.setString(14, location);
+            
             ps.executeUpdate();
 
             ps.close();
@@ -167,7 +172,7 @@ public class EquipmentDao {
             ps.setString(1, equipmentId);
             ps.setString(2, currentuser);
             ps.setString(3, previousUser);
-            ps.setString(4, location);
+            ps.setString(4,location);
             ps.setDate(5, startDate);
             ps.setDate(6, appCompletionDate);
             ps.executeUpdate();

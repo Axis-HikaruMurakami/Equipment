@@ -23,7 +23,7 @@ public class Equipment {
 	//「equipmentId_new」を追加。（やり残し消化_2026対応）
 	
 	public Equipment(String equipmentId, String maker, String model, String type, String serialnumber, String sp,
-			String mac_ad, Date purchaseDate, int purchasePrice, String notes, boolean delete_equipment) {
+			String mac_ad, Date purchaseDate, int purchasePrice, String notes, boolean delete_equipment, String location_cd) {
 		this.equipmentId		= equipmentId;
 		this.maker				= maker;
 		this.model				= model;
@@ -35,6 +35,7 @@ public class Equipment {
 		this.purchasePrice		= purchasePrice;
 		this.notes				= notes;
 		this.delete_equipment	= delete_equipment;
+		this.location_cd = location_cd;
 	}
 	
 	

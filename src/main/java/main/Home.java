@@ -42,15 +42,6 @@ public class Home extends HttpServlet {
 	    
 	   
 	    List<Display> displayList = Displaydao.listdisplay(location_cd);
-	    
-//	    // location_cd が一致するものだけに絞る
-//	    List<Display> filteredList = new ArrayList<>();
-//
-//	    for (Display d : displayList) {
-//	        if (userLocation.equals(d.getLocation())) {
-//	            filteredList.add(d);
-//	        }
-//	    }
 
 	    request.setAttribute("displayList", displayList);
 

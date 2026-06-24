@@ -79,13 +79,13 @@
 
 	<div class="mb-3">
 	    <label class="form-label">使用場所</label>	
-	    <select name="location" id="location" class="form-select" required>
+	    <select name="location" id="location_cd" class="form-select" required>
 	        <option value="">選択してください</option>
-	        <option value="本社">本社</option>
-	        <option value="仙台支店">仙台支店</option>
-	        <option value="沖縄支店">沖縄支店</option>
-	        <option value="福岡支店">福岡支店</option>
-	        <option value="大阪支店">大阪支店</option>
+	        <option value="1">本社</option>
+	        <option value="2">仙台支店</option>
+	        <option value="3">沖縄支店</option>
+	        <option value="4">福岡支店</option>
+	        <option value="5">大阪支店</option>
 	    </select>
 	</div>
 
@@ -118,7 +118,7 @@
 
     <!-- ボタン -->
     <div class="d-flex justify-content-between mt-4">
-      <button type="submit" formaction="/BackServlet" formmethod="post" formnovalidate class="btn btn-secondary w-50 me-2">戻る</button>
+      <button type="submit" formaction="/Home" formmethod="get" formnovalidate class="btn btn-secondary w-50 me-2">戻る</button>
       <button type="submit" formaction="/AddEquipment" formmethod="post" class="btn btn-primary w-50">登録</button>
     </div>
   </form>

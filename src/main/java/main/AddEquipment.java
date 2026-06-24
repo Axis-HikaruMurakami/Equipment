@@ -141,6 +141,8 @@ public class AddEquipment extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/update.jsp").forward(request, response);
 			return;
 		}
+		
+		System.out.println(location);
 
 		// DAOで登録
 		EquipmentDao.insertEquipment(equipmentId, assetNumber, maker, model, type, serialnumber, sp,
