@@ -84,6 +84,39 @@ public class Userdao {
 	    }
 	}
 	
+	public static Integer getAdmin_flg(String user_id) {
+
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DBManager.getConnection();
+
+	        String sql = "SELECT admin_flg FROM user WHERE user_id = ? ";
+
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, user_id);
+
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getInt("admin_flg");
+	        } else {
+	            return null;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+
+	    } finally {
+	        DBManager.close(rs);
+	        DBManager.close(ps);
+	        DBManager.close(conn);
+	    }
+	}
+	
 
 
 

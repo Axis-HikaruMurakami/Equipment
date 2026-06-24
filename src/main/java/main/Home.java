@@ -30,6 +30,8 @@ public class Home extends HttpServlet {
 	    // ★ ログイン後に location_cd を取得
 	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
 	    user.setLocation_cd(location_cd);
+	    
+	    int adminFlg = Userdao.getAdmin_flg(user.getUser_id());
 
 	    // セッションに保存
 	    session.setAttribute("user", user);
