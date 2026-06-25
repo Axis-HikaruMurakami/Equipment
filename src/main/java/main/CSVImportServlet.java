@@ -99,7 +99,7 @@ public class CSVImportServlet extends HttpServlet {
                 display.setPurchaseDate(CSVImportdao.parseDate(fields[8]));
                 display.setPurchasePrice(purchasePrice);
                 display.setCurrentuser(fields[11]);
-                display.setLocation(fields[12]);
+                
                 display.setPreviousUser(fields[13]);
                 display.setStartDate(CSVImportdao.parseDate(fields[14]));
                 display.setApplicationCompletionDate(CSVImportdao.parseDate(fields[15]));
@@ -114,14 +114,17 @@ public class CSVImportServlet extends HttpServlet {
                 int assetNumber = CSVImportdao.getOrInsertAsset(conn, display.getAssetName());
                 display.setAssetNumber(assetNumber);
                 
-                // ===== ID生成=====
-
-				String locationName = display.getLocation();
-				String locationCode = convertLocationNameToCd(locationName);
-
                 
-                String prefix = EquipmentDao.generateEquipmentIdPrefix(display.getLocation(), display.getAssetNumber());
+                
 
+                String locationName = fields[12];
+                String locationCode = convertLocationNameToCd(locationName);
+
+                display.setLocation(locationCode); 
+
+                String prefix = EquipmentDao.generateEquipmentIdPrefix(locationCode, display.getAssetNumber());
+
+             // ===== ID生成=====
 
 				int seq;
 				if (seqMap.containsKey(prefix)) {
@@ -149,7 +152,8 @@ public class CSVImportServlet extends HttpServlet {
                         display.getPurchasePrice(),
                         display.getEquipmentStatus(),
                         display.getNote(),
-                        display.getMacAddress()
+                        display.getMacAddress(),
+                        display.getLocation()
                 );
                
                 
@@ -159,7 +163,6 @@ public class CSVImportServlet extends HttpServlet {
                         equipmentId,
                         display.getCurrentuser(),
                         display.getPreviousUser(),
-                        locationCode,
                         display.getStartDate(),
                         display.getApplicationCompletionDate()
                 );
@@ -194,6 +197,8 @@ public class CSVImportServlet extends HttpServlet {
     
     // CSVの備品ステータス名称をDB用コードに変換
     public String convertStatusNameToCode(String statusName) {
+    	
+    	
     	
         if (statusName == null || statusName.trim().isEmpty()) {
             return null;

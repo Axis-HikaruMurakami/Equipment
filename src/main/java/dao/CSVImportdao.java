@@ -53,10 +53,38 @@ public class CSVImportdao {
 		}
 	}
 
-	public static void insertEquipment(Connection conn, String equipmentId, String assetNumber, String maker, String model, String type, String serialNumber, String sp, Date purchaseDate, int purchasePrice, String equipment_status, String notes, String macAddress) throws SQLException {
+	public static void insertEquipment(Connection conn, 
+			String equipmentId, 
+			String assetNumber, 
+			String maker, 
+			String model, 
+			String type, 
+			String serialNumber, 
+			String sp, 
+			Date purchaseDate, 
+			int purchasePrice, 
+			String equipment_status, 
+			String notes, 
+			String macAddress, 
+			String locationCode
+			) throws SQLException {
 		
-		String insertQuery = "INSERT INTO equipment (equipment_id, asset_number, maker, model, type, serialnumber, sp, mac_ad, purchase_date, purchase_price, equipment_status, notes) "
-							+"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		String insertQuery = "INSERT INTO equipment ("
+				+ "equipment_id, "
+				+ "asset_number, "
+				+ "maker, "
+				+ "model, "
+				+ "type, "
+				+ "serialnumber, "
+				+ "sp, "
+				+ "mac_ad, "
+				+ "purchase_date, "
+				+ "purchase_price, "
+				+ "equipment_status, "
+				+ "notes, "
+				+ "location_cd) "
+							+"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
 			insertStmt.setString(1, equipmentId);
@@ -71,23 +99,23 @@ public class CSVImportdao {
 			insertStmt.setInt(10, purchasePrice);
 			insertStmt.setString(11, equipment_status);
 			insertStmt.setString(12, notes);
+			insertStmt.setString(13,locationCode);
 
 			insertStmt.executeUpdate();
 		}
 	}
 
-	public static void insertUsage(Connection conn, String equipmentId, String currentUser, String previousUser, String string, Date startDate, Date applicationCompletionDate) throws SQLException {
+	public static void insertUsage(Connection conn, String equipmentId, String currentUser, String previousUser, Date startDate, Date applicationCompletionDate) throws SQLException {
 		
-		String sql = "INSERT INTO u_sege (equipment_id, currentuser, previous_user, location, start_date, application_completion_date) "
-					+"VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO u_sege (equipment_id, currentuser, previous_user, start_date, application_completion_date) "
+					+"VALUES (?, ?, ?, ?, ?)";
 		
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, equipmentId);
 			ps.setString(2, currentUser);
 			ps.setString(3, previousUser);
-			ps.setString(4, string);
-			ps.setDate(5, startDate);
-			ps.setDate(6, applicationCompletionDate);
+			ps.setDate(4, startDate);
+			ps.setDate(5, applicationCompletionDate);
 			ps.executeUpdate();
 		}
 	}
