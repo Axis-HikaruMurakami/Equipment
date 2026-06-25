@@ -70,7 +70,8 @@ public class AdminDisplayDao {
 				String sql =
 					    "SELECT user_id,user_name,password,location_cd,admin_flg,delete_flg "
 					    + "FROM user "
-					    + "WHERE location.cd = ?";
+					    + "WHERE location_cd = ?"
+					    + "AND delete_flg = 0";
 
 				ps = conn.prepareStatement(sql);
 				ps.setString(1, location_cd);
@@ -123,8 +124,13 @@ public class AdminDisplayDao {
 			 ps = conn.prepareStatement(sql);
 	            ps.setString(1, userId);
 	            ps.setString(2, userId);
-	            ps.setString(3, userName);
-	            ps.setString(4, userName);
+	            if (userName == null || userName.isEmpty()) {
+	                ps.setNull(3, java.sql.Types.VARCHAR);
+	                ps.setNull(4, java.sql.Types.VARCHAR);
+	            } else {
+	                ps.setString(3, userName);
+	                ps.setString(4, "%" + userName + "%");
+	            }
 	            ps.setString(5, locationName);
 	            ps.setString(6, locationName);
 	            ps.setInt(7, deleteFlagInt);
@@ -135,7 +141,7 @@ public class AdminDisplayDao {
 			while (rs.next()) {
 				User user = new User();
 				user.setUser_id(rs.getString("user_id"));
-				user.setUser_name(rs.getString("user_name,"));
+				user.setUser_name(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setLocation_cd(rs.getString("location_cd"));
 				user.setAdmin_flg(rs.getInt("admin_flg"));
@@ -166,8 +172,8 @@ public class AdminDisplayDao {
 		try {
 
 			conn = DBManager.getConnection();
-
-			String sql = "SELECT location_id,location_name FROM location";
+			//location_id必要ない可能性あり、
+			String sql = "SELECT location_cd,location_name FROM location";
 
 			ps = conn.prepareStatement(sql);
 

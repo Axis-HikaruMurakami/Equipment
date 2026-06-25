@@ -25,20 +25,34 @@ public class AdminHome extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 		
+		String flg = request.getParameter("flg");
 
-	    HttpSession session = request.getSession(false);
-	    User user = (User) session.getAttribute("user");
+		if ("true".equals(flg)) {
+			List<User> displayList = AdminDisplayDao.listdisplay();
 
-	    // ログインユーザーの location_cd
-	    String userLocation = user.getLocation_cd();
-	   
-	    List<User> displayList = AdminDisplayDao.listLocationDisplay(userLocation);
+		    request.setAttribute("displayList", displayList);
 
-	    request.setAttribute("displayList", displayList);
+		    List<Location> locationList = AdminDisplayDao.locationName();
+		    request.setAttribute("locationList", locationList);
+			
+			
+		} else {
+			HttpSession session = request.getSession(false);
+		    User user = (User) session.getAttribute("user");
 
-	    List<Location> locationList = AdminDisplayDao.locationName();
-	    request.setAttribute("locationList", locationList);
+		    // ログインユーザーの location_cd
+		    String userLocation_id = user.getLocation_cd();
+		   
+		    List<User> displayList = AdminDisplayDao.listLocationDisplay(userLocation_id);
 
+		    request.setAttribute("displayList", displayList);
+
+		    List<Location> locationList = AdminDisplayDao.locationName();
+		    request.setAttribute("locationList", locationList);
+		}
+		
+	    
+	    
 	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin.jsp");
 	    rd.forward(request, response);
 	}

@@ -251,3 +251,35 @@ select.form-select:focus {
         width: 100%;
     }
 }
+
+
+/* =========================
+   上部ユーザーボタン
+========================= */
+
+.top-user-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+}
+
+.top-user-buttons .btn {
+    width: 150px;
+    margin-bottom: 0;
+}
+
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+
+    .top-user-buttons {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .top-user-buttons .btn {
+        width: 150px;
+    }
+
+}

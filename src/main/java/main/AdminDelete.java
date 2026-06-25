@@ -47,15 +47,15 @@ public class AdminDelete extends HttpServlet {
     			
     			request.setAttribute("locationList", locationList);
 
-                // main.jsp にリクエストを転送
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+                // admin.jsp にリクエストを転送
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin.jsp");
                 rd.forward(request, response);
                 
             } else {
                 // 削除が失敗した場合、エラーメッセージをセット
                 request.setAttribute("error", "削除に失敗しました。");
 
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin.jsp");
                 
                 rd.forward(request, response);
             }
@@ -65,7 +65,7 @@ public class AdminDelete extends HttpServlet {
             // エラー時のエラーメッセージをリクエスト属性にセット
             request.setAttribute("error", "処理中にエラーが発生しました。");
 
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin.jsp");
             rd.forward(request, response);
         }
     }

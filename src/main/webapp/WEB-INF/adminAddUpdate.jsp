@@ -63,12 +63,19 @@ h3 {
 			<!-- 登録フォーム -->
 			<form id="equipmentForm" method="post">
 
-				
+
 				<input type="hidden" name="mode" value="${mode}" />
 
 				<div class="mb-3">
-					<label class="form-label"> ユーザID<span
-						class="badge bg-danger ms-1">必須</span>
+					<label class="form-label"> ユーザID<c:choose>
+							<c:when test="${mode == 'adminUpdate'}">
+								<span class="badge bg-secondary ms-1">変更不可</span>
+							</c:when>
+
+							<c:otherwise>
+								<span class="badge bg-danger ms-1">必須</span>
+							</c:otherwise>
+						</c:choose>
 					</label> <input type="text" name="user_id" class="form-control"
 						maxlength="100"
 						value="${param.user_id != null ? param.user_id : (mode == 'adminUpdate' ? update.user_id : '')}"

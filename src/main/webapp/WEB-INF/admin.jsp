@@ -18,17 +18,29 @@
 	<div class="container py-4">
 		<h3 class="text-center mb-4">ユーザ表示画面</h3>
 
-		<!-- ログインユーザー表示 -->
 		<div class="col-12 text-end mt-2">
+
 			<p>ログインユーザー：${user.user_name}</p>
-			<form action="/Equipment/Logout" method="post">
-				<input type="submit" value="ログアウト" class="btn btn-danger">
-			</form>
+
+			<div class="top-user-buttons">
+
+				<form action="/Equipment/Home" method="get">
+					<input type="submit" value="戻る" class="btn btn-primary">
+				</form>
+
+
+				<form action="/Equipment/Logout" method="post">
+					<input type="submit" value="ログアウト" class="btn btn-danger">
+				</form>
+
+			</div>
+
 		</div>
 
 		<!-- 上部のボタン群（CSV出力、削除履歴、全権表示）-->
 		<div class="d-flex justify-content-start mb-3">
-			<form action="/Equipment/log" method="post" style="display: inline;">
+			<form action="/Equipment/AdminHome" method="get"
+				style="display: inline;">
 				<button type="submit" class="btn btn-success me-2">全件表示</button>
 				<input type="hidden" name="flg" value="true">
 			</form>
@@ -37,37 +49,55 @@
 
 		<h5 class="mb-3">検索条件</h5>
 
-		<!-- 検索フォーム -->
-		<form action="/Equipment/UserSearch" method="post" class="row g-3">
+		<form action="/Equipment/AdminSearch" method="post" class="row g-3">
+
 			<div class="col-md-4">
 				<label class="form-label">ユーザID</label> <input type="text"
-					name="userId" class="form-control" maxlength="9" />
+					name="userId" value="${userId}" class="form-control" maxlength="9" />
 			</div>
+
 
 			<div class="col-md-4">
 				<label class="form-label">ユーザ名</label> <input type="text"
-					name="userName" class="form-control" maxlength="9" />
+					name="userName" value="${userName}" class="form-control"
+					maxlength="9" />
 			</div>
+
 
 			<div class="col-md-4">
 				<label class="form-label">所属</label> <select class="form-select"
 					name="locationName">
-					<option value="">-- 選択してください --</option>
+
+					<option value=""
+						${locationName == null || locationName == '' ? 'selected' : ''}>
+						-- 選択してください --</option>
+
+
 					<c:forEach var="location" items="${locationList}">
-						<option value="${location}">${location}</option>
+
+						<option value="${location.location_name}"
+							${locationName == location.location_name ? 'selected' : ''}>
+							${location.location_name}</option>
+
 					</c:forEach>
+
 				</select>
 			</div>
+
 
 			<div class="col-md-4">
 				<label class="form-label">削除フラグ</label> <select name="deleteFlag"
 					class="form-select">
+
 					<option value="0"
 						${deleteFlag == null || deleteFlag == '0' ? 'selected' : ''}>
 						未削除</option>
+
 					<option value="1" ${deleteFlag == '1' ? 'selected' : ''}>
 						削除済み</option>
+
 				</select>
+
 			</div>
 
 			<div class="col-12 text-start mt-2">
@@ -135,7 +165,7 @@
 				form.submit();//フォームの送信
 			}
 		</script>
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		<!-- 検索結果 -->
 		<div class="card-block resultTable mt-4">
 			<h5 class="mb-3">検索結果</h5>
@@ -152,8 +182,7 @@
 
 				<form action="/Equipment/AdminDeleteServlet" method="post"
 					style="display: inline;" id="deleteForm">
-					<input type="hidden" name="userId" value=""
-						id="deleteEquipmentId" />
+					<input type="hidden" name="userId" value="" id="deleteEquipmentId" />
 					<button type="button" class="btn btn-primary me-2"
 						onclick="confirmDelete()">削除</button>
 				</form>
@@ -191,7 +220,7 @@
 										<c:when test="${item.location_cd == 5}">大阪支店</c:when>
 										<c:otherwise>不明</c:otherwise>
 									</c:choose></td>
-									
+
 								<td><c:choose>
 										<c:when test="${item.admin_flg == 1}">あり</c:when>
 										<c:otherwise>なし</c:otherwise>

@@ -20,17 +20,22 @@
 
 		<!-- ログインユーザー表示 -->
 		<div class="col-12 text-end mt-2">
+
 			<p>ログインユーザー：${user.user_name}</p>
-			<form action="/Equipment/Logout" method="post">
-				<input type="submit" value="ログアウト" class="btn btn-danger">
-			</form>
-		</div>
-		
-		<div class="col-12 text-end mt-2">
-			<p>管理者モード</p>
-			<form action="/Equipment/AdminHome" method="get">
-				<input type="submit" value="管理者モード" class="btn btn-danger">
-			</form>
+
+			<div class="top-user-buttons">
+
+				<form action="/Equipment/AdminHome" method="get">
+					<input type="submit" value="管理者モード" class="btn btn-primary">
+				</form>
+
+
+				<form action="/Equipment/Logout" method="post">
+					<input type="submit" value="ログアウト" class="btn btn-danger">
+				</form>
+
+			</div>
+
 		</div>
 		<!-- 上部のボタン群（CSV出力、削除履歴、全権表示）-->
 		<div class="d-flex justify-content-start mb-3">
@@ -63,15 +68,17 @@
 					</c:forEach>
 				</select>
 			</div>
-	
+
 			<div class="col-md-4">
 				<label for="startDate" class="form-label">購入日（開始）</label> <input
-					type="date" id="startDate" name="startDate" max="9999-12-31" class="form-control" />
+					type="date" id="startDate" name="startDate" max="9999-12-31"
+					class="form-control" />
 			</div>
 
 			<div class="col-md-4">
 				<label for="endDate" class="form-label">購入日（終了）</label> <input
-					type="date" id="endDate" name="endDate" max="9999-12-31" class="form-control" />
+					type="date" id="endDate" name="endDate" max="9999-12-31"
+					class="form-control" />
 			</div>
 
 			<div class="col-md-4">
@@ -90,14 +97,14 @@
 			</div>
 
 			<div class="col-md-4">
-			    <label class="form-label">備品ステータス</label>
-			    <select name="equipmentStatus" class="form-select">
-			        <option value="">-- 選択してください --</option>
-			        <option value="1">未使用</option>
-			        <option value="2">使用中</option>
-			        <option value="3">故障中</option>
-			        <option value="4">廃棄</option>
-			    </select>
+				<label class="form-label">備品ステータス</label> <select
+					name="equipmentStatus" class="form-select">
+					<option value="">-- 選択してください --</option>
+					<option value="1">未使用</option>
+					<option value="2">使用中</option>
+					<option value="3">故障中</option>
+					<option value="4">廃棄</option>
+				</select>
 			</div>
 
 
