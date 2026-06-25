@@ -105,9 +105,20 @@ public class CSVImportdao {
 		}
 	}
 
-	public static void insertUsage(Connection conn, String equipmentId, String currentUser, String previousUser, Date startDate, Date applicationCompletionDate) throws SQLException {
+	public static void insertUsage(Connection conn, 
+			String equipmentId,
+			String currentUser, 
+			String previousUser, 
+			Date startDate, 
+			Date applicationCompletionDate
+			) throws SQLException {
 		
-		String sql = "INSERT INTO u_sege (equipment_id, currentuser, previous_user, start_date, application_completion_date) "
+		String sql = "INSERT INTO u_sege ("
+				+ "equipment_id, "
+				+ "currentuser, "
+				+ "previous_user, "
+				+ "start_date, "
+				+ "application_completion_date) "
 					+"VALUES (?, ?, ?, ?, ?)";
 		
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {

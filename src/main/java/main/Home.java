@@ -19,38 +19,39 @@ import dao.Userdao;
 
 @WebServlet("/Home")
 public class Home extends HttpServlet {
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
-		
-
-	    HttpSession session = request.getSession(false);
-	    User user = (User) session.getAttribute("user");
-	    
-	    // ★ ログイン後に location_cd を取得
-	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
-	    user.setLocation_cd(location_cd);
-	    
-	    int adminFlg = Userdao.getAdmin_flg(user.getUser_id());
-
-	    // セッションに保存
-	    session.setAttribute("user", user);
-
-	    // ログインユーザーの location_cd
-	    String userLocation = user.getLocation_cd();
-	    session.setAttribute("user",user);
-	    
-	   
-	    List<Display> displayList = Displaydao.listdisplay(location_cd);
-
-	    request.setAttribute("displayList", displayList);
-
-	    List<Asset> assetname = Displaydao.assetName();
-	    request.setAttribute("assetname", assetname);
-
-	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
-	    rd.forward(request, response);
-	}
+//	@Override
+//	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//	        throws ServletException, IOException {
+//		
+//
+//	    HttpSession session = request.getSession(false);
+//	    User user = (User) session.getAttribute("user");
+//	    
+//	    // ★ ログイン後に location_cd を取得
+//	    String location_cd = Userdao.getLocation_cd(user.getUser_id());
+//	    user.setLocation_cd(location_cd);
+//	    //admin_flgを取得
+//	    int adminFlg = Userdao.getAdmin_flg(user.getUser_id());
+//	    user.setAdmin_flg(adminFlg);
+//
+//	    // セッションに保存
+//	    session.setAttribute("user", user);
+//
+//	    // ログインユーザーの location_cd
+//	    String userLocation = user.getLocation_cd();
+//	    session.setAttribute("user",user);
+//	    
+//	   
+//	    List<Display> displayList = Displaydao.listdisplay(location_cd);
+//
+//	    request.setAttribute("displayList", displayList);
+//
+//	    List<Asset> assetname = Displaydao.assetName();
+//	    request.setAttribute("assetname", assetname);
+//
+//	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+//	    rd.forward(request, response);
+//	}
 
 
 
@@ -67,6 +68,11 @@ public class Home extends HttpServlet {
 		    // ★ ログイン後に location_cd を取得
 		    String location_cd = Userdao.getLocation_cd(user.getUser_id());
 		    user.setLocation_cd(location_cd);
+		    
+		    //admin_flgを取得
+		    int adminFlg = Userdao.getAdmin_flg(user.getUser_id());
+		    user.setAdmin_flg(adminFlg);
+		 
 			
 			List<Display> displayList = Displaydao.listdisplay(location_cd);
 			
