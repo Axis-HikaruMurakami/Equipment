@@ -31,27 +31,27 @@ public class AdminAddUpdate extends HttpServlet {
 		List<Location> locationList = AdminDisplayDao.locationName();
 		request.setAttribute("locationList", locationList);
 
-		if ("add".equals(mode)) {
+		if ("adminAdd".equals(mode)) {
 
 			// 登録用画面へ
-			request.setAttribute("mode", "add");
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/adminUpdate.jsp");
+			request.setAttribute("mode", "adminAdd");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp");
 			rd.forward(request, response);
 
 		} else if (idStr != null && !idStr.isEmpty()) {
 
-			// 修正用画面へs
+			// 修正用画面へ
 			// DAO から該当の備品情報を取得
 			String id = idStr;
 			User update = AdminDisplayDao.update(id);
 
 			request.setAttribute("mode", "adminUpdate");
 			request.setAttribute("update", update);
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/adminUpdate.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp");
 			rd.forward(request, response);
 		} else {
 			// 不正アクセス時などの処理
-			response.sendRedirect("/Equipment/main.jsp");
+			response.sendRedirect("/Equipment/admin.jsp");
 		}
 	}
 

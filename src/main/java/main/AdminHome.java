@@ -39,7 +39,7 @@ public class AdminHome extends HttpServlet {
 	    List<Location> locationList = AdminDisplayDao.locationName();
 	    request.setAttribute("locationList", locationList);
 
-	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/main.jsp");
+	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/admin.jsp");
 	    rd.forward(request, response);
 	}
 

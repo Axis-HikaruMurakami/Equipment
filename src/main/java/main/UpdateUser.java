@@ -1,3 +1,4 @@
+
 package main;
 
 import java.io.IOException;
@@ -27,10 +28,6 @@ public class UpdateUser extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
-
-		// 更新対象ユーザID取得
-		String userId = request.getParameter("userId");
-
 		// 入力値取得
 
 		String user_id = request.getParameter("user_id");
@@ -49,7 +46,7 @@ public class UpdateUser extends HttpServlet {
 
 		if(user_id == null || user_id.trim().isEmpty()) {
 
-			request.setAttribute("makerError", "ユーザIDは必須です。");
+			request.setAttribute("userIdError", "ユーザIDは必須です。");
 
 			request.getRequestDispatcher("/WEB-INF/update.jsp")
 			.forward(request,response);
@@ -61,7 +58,7 @@ public class UpdateUser extends HttpServlet {
 
 		if(user_name == null || user_name.trim().isEmpty()) {
 
-			request.setAttribute("makerError", "ユーザ名は必須です。");
+			request.setAttribute("userNameError", "ユーザ名は必須です。");
 
 			request.getRequestDispatcher("/WEB-INF/update.jsp")
 			.forward(request,response);
@@ -73,7 +70,7 @@ public class UpdateUser extends HttpServlet {
 
 		if(password == null || password.trim().isEmpty()) {
 
-			request.setAttribute("makerError", "パスワードは必須です。");
+			request.setAttribute("passwordError", "パスワードは必須です。");
 
 			request.getRequestDispatcher("/WEB-INF/update.jsp")
 			.forward(request,response);
@@ -97,7 +94,7 @@ public class UpdateUser extends HttpServlet {
 
 		if(adminFlgStr == null || adminFlgStr.trim().isEmpty()) {
 
-			request.setAttribute("locationError", "管理者権限は必須です。");
+			request.setAttribute("adminFlgError", "管理者権限は必須です。");
 
 			request.getRequestDispatcher("/WEB-INF/update.jsp")
 			.forward(request,response);
@@ -110,13 +107,7 @@ public class UpdateUser extends HttpServlet {
 
 		// 更新処理
 
-		Userdao.updateUser(
-				userId,
-				user_name,
-				password,
-				location_cd,
-				admin_flg
-		);
+		Userdao.updateUser(user_id,user_name,password,location_cd,admin_flg);
 
 
 

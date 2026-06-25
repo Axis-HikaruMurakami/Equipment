@@ -10,7 +10,7 @@ String mode = (String) request.getAttribute("mode");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>備品更新画面</title>
+<title>ユーザ更新画面</title>
 <!-- Bootstrap 5 CDN -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -52,10 +52,10 @@ h3 {
 	<div class="container py-4">
 		<c:choose>
 			<c:when test="${mode == 'adminUpdate'}">
-				<h3 class="text-center mb-4">備品の更新</h3>
+				<h3 class="text-center mb-4">ユーザー更新</h3>
 			</c:when>
 			<c:otherwise>
-				<h3 class="text-center mb-4">備品の登録</h3>
+				<h3 class="text-center mb-4">ユーザー登録</h3>
 			</c:otherwise>
 		</c:choose>
 		<div class="card-block">
@@ -63,21 +63,23 @@ h3 {
 			<!-- 登録フォーム -->
 			<form id="equipmentForm" method="post">
 
-				<c:if test="${mode == 'adminUpdate'}">
-					<input type="hidden" name="userId" value="${update.userId}" />
-				</c:if>
+				
 				<input type="hidden" name="mode" value="${mode}" />
 
 				<div class="mb-3">
 					<label class="form-label"> ユーザID<span
-						class="badge bg-danger ms-1">必須</span></label> <input type="text"
-						name="user_id" class="form-control" maxlength="100"
-						value="${param.user_id != null ? param.user_id : (mode == 'adminUpdate' ? update.user_id : '') }"
-						autocomplete="off">
+						class="badge bg-danger ms-1">必須</span>
+					</label> <input type="text" name="user_id" class="form-control"
+						maxlength="100"
+						value="${param.user_id != null ? param.user_id : (mode == 'adminUpdate' ? update.user_id : '')}"
+						autocomplete="off"
+						<c:if test="${mode == 'adminUpdate'}">
+						readonly
+						</c:if>>
 
-					<c:if test="${not empty makerError}">
+					<c:if test="${not empty userIdError}">
 						<div class="text-danger">
-							<c:out value="${makerError}" />
+							<c:out value="${userIdError}" />
 						</div>
 					</c:if>
 
@@ -90,9 +92,9 @@ h3 {
 						value="${param.user_name != null ? param.user_name : (mode == 'adminUpdate' ? update.user_name : '') }"
 						autocomplete="off">
 
-					<c:if test="${not empty makerError}">
+					<c:if test="${not empty userNameError}">
 						<div class="text-danger">
-							<c:out value="${makerError}" />
+							<c:out value="${userNameError}" />
 						</div>
 					</c:if>
 
@@ -105,9 +107,9 @@ h3 {
 						value="${param.password != null ? param.password : (mode == 'adminUpdate' ? update.password : '') }"
 						autocomplete="off">
 
-					<c:if test="${not empty makerError}">
+					<c:if test="${not empty passwordError}">
 						<div class="text-danger">
-							<c:out value="${makerError}" />
+							<c:out value="${passwordError}" />
 						</div>
 					</c:if>
 
@@ -199,20 +201,20 @@ h3 {
 							あり</option>
 
 					</select>
-					
-					<c:if test="${not empty locationError}">
+
+					<c:if test="${not empty adminFlgError}">
 						<div class="text-danger">
-							<c:out value="${locationError}" />
+							<c:out value="${adminFlgError}" />
 						</div>
 					</c:if>
-					
+
 				</div>
 
 				<!-- ボタン -->
 				<div class="d-flex justify-content-center gap-4 mt-4">
 
-					<button type="submit" formaction="/Equipment/AdminHome" formmethod="get"
-						formnovalidate class="btn btn-secondary">戻る</button>
+					<button type="submit" formaction="/Equipment/AdminHome"
+						formmethod="get" formnovalidate class="btn btn-secondary">戻る</button>
 
 					<c:choose>
 						<c:when test="${mode == 'adminUpdate'}">

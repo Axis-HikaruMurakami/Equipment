@@ -103,7 +103,7 @@
 				const selected = document.querySelector('input[name="select"]:checked');
 
 				//修正ボタンで選択がされていなかった場合アラート
-				if (mode === 'edit' && !selected){
+				if (mode === 'adminUpdate' && !selected){
 					alert("修正するには、表から1件選択してください。");
 					return;
 					}
@@ -123,11 +123,11 @@
 					}
 
 				// 追加ボタンが押されたら
-			    if (mode === 'add') {
+			    if (mode === 'adminAdd') {
 			        const input = document.createElement("input")
 			        input.type = "hidden";
 			        input.name = "mode";
-			        input.value = "add";
+			        input.value = "adminAdd";
 			        form.appendChild(input);
 			    }
 			    
@@ -146,7 +146,7 @@
 
 				<!-- 操作ボタン -->
 				<button type="button" class="btn btn-primary me-2"
-					onclick="submitForm('add')">追加</button>
+					onclick="submitForm('adminAdd')">追加</button>
 				<button type="button" class="btn btn-primary me-2"
 					onclick="submitForm('adminUpdate')">修正</button>
 

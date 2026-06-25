@@ -117,48 +117,68 @@ public class Userdao {
 	    }
 	}
 	
-	public static Integer updateUser(String user_id,String user_name,String password,String location_cd,Integer admin_flg) {
+	public static void updateUser(String user_id, String user_name, String password,
+	        String location_cd, Integer admin_flg) {
 
 	    Connection conn = null;
 	    PreparedStatement ps = null;
-	    ResultSet rs = null;
 
 	    try {
 	        conn = DBManager.getConnection();
 
 	        String sql = "UPDATE user "
-	        		+ "SET user_name = ?,password = ?,location_cd = ?,admin_flg = ?"
-	        		+ "WHERE user_id = ?";
+	                + "SET user_name = ?, password = ?, location_cd = ?, admin_flg = ? "
+	                + "WHERE user_id = ?";
 
 	        ps = conn.prepareStatement(sql);
+
 	        ps.setString(1, user_name);
 	        ps.setString(2, password);
 	        ps.setString(3, location_cd);
 	        ps.setInt(4, admin_flg);
 	        ps.setString(5, user_id);
 
-	        rs = ps.executeQuery();
-
-	        if (rs.next()) {
-	            return rs.getInt("admin_flg");
-	        } else {
-	            return null;
-	        }
+	        ps.executeUpdate();
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        return null;
 
 	    } finally {
-	        DBManager.close(rs);
 	        DBManager.close(ps);
 	        DBManager.close(conn);
 	    }
 	}
 	
-	
-	
+	public static void insertUser(String user_id, String user_name, String password,
+	        String location_cd, Integer admin_flg) {
 
+	    Connection conn = null;
+	    PreparedStatement ps = null;
 
+	    try {
+	        conn = DBManager.getConnection();
+
+	        String sql = "INSERT INTO user(user_id,user_name,password,location_cd,admin_flg) "
+	        		+ "VALUES(?,?,?,?,?)";
+
+	        ps = conn.prepareStatement(sql);
+	        
+	        ps.setString(1, user_id);
+	        ps.setString(2, user_name);
+	        ps.setString(3, password);
+	        ps.setString(4, location_cd);
+	        ps.setInt(5, admin_flg);
+	        
+
+	        ps.executeUpdate();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+
+	    } finally {
+	        DBManager.close(ps);
+	        DBManager.close(conn);
+	    }
+	}
 
 }
