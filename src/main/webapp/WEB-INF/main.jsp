@@ -25,10 +25,21 @@
 
 			<div class="top-user-buttons">
 
-				<form action="/Equipment/AdminHome" method="get">
-					<input type="submit" value="管理者モード" class="btn btn-primary">
+				<form id="adminForm" action="/Equipment/AdminHome" method="get">
+					<button type="button" class="btn btn-primary"
+						onclick="checkAdmin()">管理者モード</button>
 				</form>
+				<script>/*管理者権限もっているか判定  */
+				function checkAdmin() {
+    				const adminFlg = ${user.admin_flg};
 
+    				if (adminFlg == 1) {
+        				document.getElementById("adminForm").submit();
+    				} else {
+        				alert("あなたは管理者ではありませんよね。なにしてるんですか？？？？");
+    				}
+					}
+				</script>
 
 				<form action="/Equipment/Logout" method="post">
 					<input type="submit" value="ログアウト" class="btn btn-danger">

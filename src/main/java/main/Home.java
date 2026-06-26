@@ -36,10 +36,6 @@ public class Home extends HttpServlet {
 
 	    // セッションに保存
 	    session.setAttribute("user", user);
-
-	    // ログインユーザーの location_cd
-	    String userLocation = user.getLocation_cd();
-	    session.setAttribute("user",user);
 	    
 	   
 	    List<Display> displayList = Displaydao.listdisplay(location_cd);

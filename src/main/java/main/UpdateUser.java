@@ -48,7 +48,7 @@ public class UpdateUser extends HttpServlet {
 
 			request.setAttribute("userIdError", "ユーザIDは必須です。");
 
-			request.getRequestDispatcher("/WEB-INF/update.jsp")
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
 			.forward(request,response);
 
 			return;
@@ -60,7 +60,7 @@ public class UpdateUser extends HttpServlet {
 
 			request.setAttribute("userNameError", "ユーザ名は必須です。");
 
-			request.getRequestDispatcher("/WEB-INF/update.jsp")
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
 			.forward(request,response);
 
 			return;
@@ -72,7 +72,7 @@ public class UpdateUser extends HttpServlet {
 
 			request.setAttribute("passwordError", "パスワードは必須です。");
 
-			request.getRequestDispatcher("/WEB-INF/update.jsp")
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
 			.forward(request,response);
 
 			return;
@@ -84,7 +84,7 @@ public class UpdateUser extends HttpServlet {
 
 			request.setAttribute("locationError", "所属は必須です。");
 
-			request.getRequestDispatcher("/WEB-INF/update.jsp")
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
 			.forward(request,response);
 
 			return;
@@ -96,7 +96,7 @@ public class UpdateUser extends HttpServlet {
 
 			request.setAttribute("adminFlgError", "管理者権限は必須です。");
 
-			request.getRequestDispatcher("/WEB-INF/update.jsp")
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
 			.forward(request,response);
 
 			return;
