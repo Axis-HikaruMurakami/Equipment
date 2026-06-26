@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +30,35 @@ import db.DBManager;
 public class CSVImportServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
+    private String[] parseCsvLine(String line) {
+        List<String> fields = new ArrayList<>();
+        StringBuilder field = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+
+            if (c == '"') {
+                // "" は " として扱う
+                if (inQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
+                    field.append('"');
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (c == ',' && !inQuotes) {
+                fields.add(field.toString());
+                field.setLength(0);
+            } else {
+                field.append(c);
+            }
+        }
+
+        fields.add(field.toString());
+
+        return fields.toArray(new String[0]);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +90,7 @@ public class CSVImportServlet extends HttpServlet {
 
             while ((line = reader.readLine()) != null) {
                 lineNumber++;
-                String[] fields = line.split(",", -1);
+                String[] fields = parseCsvLine(line);
 
                 if (fields.length < 18) {
                     throw new IllegalArgumentException(
@@ -70,10 +101,11 @@ public class CSVImportServlet extends HttpServlet {
                 int purchasePrice;
                 
                 try {
-                    purchasePrice = parseIntSafe(fields[10]);
+                	purchasePrice = parseIntSafe(fields[10]);
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException(
                         "CSVエラー（" + lineNumber + "行目）: 購入金額が整数でありません");
+                    
                 }
 
                 // 日付チェック
@@ -123,6 +155,7 @@ public class CSVImportServlet extends HttpServlet {
                 display.setLocation(locationCode); 
 
                 String prefix = EquipmentDao.generateEquipmentIdPrefix(locationCode, display.getAssetNumber());
+                
 
              // ===== ID生成=====
 
