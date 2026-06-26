@@ -187,10 +187,7 @@
 						onclick="confirmDelete()">削除</button>
 				</form>
 
-				<form action="/Equipment/InportServlet" method="post"
-					style="display: inline;">
-					<button type="submit" class="btn btn-primary me-2">一括登録</button>
-				</form>
+				
 			</div>
 
 
