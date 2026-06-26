@@ -68,7 +68,7 @@ select.form-select:focus {
 /* Bootstrap table と共存 */
 .resultTable .table {
     table-layout: auto;
-    min-width: 2400px;   /* 18列対応 */
+    min-width: 100%;
     width: max-content;
     background-color: #fff;
     border: 1px solid #dee2e6;
@@ -124,117 +124,6 @@ select.form-select:focus {
     cursor: pointer;
 }
 
-/* =========================
-   列幅設定
-========================= */
-
-/* 1:選択 */
-.resultTable th:nth-child(1),
-.resultTable td:nth-child(1) {
-    width: 60px;
-}
-
-/* 2:備品番号 */
-.resultTable th:nth-child(2),
-.resultTable td:nth-child(2) {
-    width: 120px;
-}
-
-/* 3:資産分類 */
-.resultTable th:nth-child(3),
-.resultTable td:nth-child(3) {
-    width: 150px;
-}
-
-/* 4:メーカー */
-.resultTable th:nth-child(4),
-.resultTable td:nth-child(4) {
-    width: 120px;
-}
-
-/* 5:機種 */
-.resultTable th:nth-child(5),
-.resultTable td:nth-child(5) {
-    width: 150px;
-}
-
-/* 6:TYPE */
-.resultTable th:nth-child(6),
-.resultTable td:nth-child(6) {
-    width: 100px;
-}
-
-/* 7:S/N */
-.resultTable th:nth-child(7),
-.resultTable td:nth-child(7) {
-    width: 150px;
-}
-
-/* 8:スペック */
-.resultTable th:nth-child(8),
-.resultTable td:nth-child(8) {
-    width: 250px;
-}
-
-/* 9:MACアドレス */
-.resultTable th:nth-child(9),
-.resultTable td:nth-child(9) {
-    width: 180px;
-}
-
-/* 10:購入日 */
-.resultTable th:nth-child(10),
-.resultTable td:nth-child(10) {
-    width: 120px;
-}
-
-/* 11:経過年 */
-.resultTable th:nth-child(11),
-.resultTable td:nth-child(11) {
-    width: 100px;
-}
-
-/* 12:購入金額 */
-.resultTable th:nth-child(12),
-.resultTable td:nth-child(12) {
-    width: 120px;
-}
-
-/* 13:使用者 */
-.resultTable th:nth-child(13),
-.resultTable td:nth-child(13) {
-    width: 140px;
-}
-
-/* 14:使用場所 */
-.resultTable th:nth-child(14),
-.resultTable td:nth-child(14) {
-    width: 180px;
-}
-
-/* 15:前使用者 */
-.resultTable th:nth-child(15),
-.resultTable td:nth-child(15) {
-    width: 140px;
-}
-
-/* 16:現在申請完了日 */
-.resultTable th:nth-child(16),
-.resultTable td:nth-child(16) {
-    width: 150px;
-}
-
-/* 17:備品ステータス */
-.resultTable th:nth-child(17),
-.resultTable td:nth-child(17) {
-    width: 150px;
-}
-
-/* 18:その他 */
-.resultTable th:nth-child(18),
-.resultTable td:nth-child(18) {
-    width: 300px;
-}
 
 /* =========================
    スマホ対応

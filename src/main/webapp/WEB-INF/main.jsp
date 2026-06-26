@@ -29,17 +29,22 @@
 					<button type="button" class="btn btn-primary"
 						onclick="checkAdmin()">管理者モード</button>
 				</form>
-				<script>/*管理者権限もっているか判定  */
-				function checkAdmin() {
-    				const adminFlg = ${user.admin_flg};
 
-    				if (adminFlg == 1) {
-        				document.getElementById("adminForm").submit();
-    				} else {
-    					alert("この画面へは管理者のみアクセスできます。");
-    				}
-					}
+				<script>
+			// 管理者権限チェック
+			function checkAdmin() {
+
+				// JSPから取得した管理者フラグ
+				const adminFlg = "${user.admin_flg}";
+
+				if (adminFlg === "1") {
+					document.getElementById("adminForm").submit();
+				} else {
+					alert("この画面へは管理者のみアクセスできます。");
+				}
+			}
 				</script>
+
 
 				<form action="/Equipment/Logout" method="post">
 					<input type="submit" value="ログアウト" class="btn btn-danger">

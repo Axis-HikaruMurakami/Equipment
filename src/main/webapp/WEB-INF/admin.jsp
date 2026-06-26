@@ -194,42 +194,71 @@
 			</div>
 
 
-			<div class="table-responsive mt-3">
-				<table class="table table-bordered table-sm">
-					<thead>
-						<tr>
-							<th class="sticky-col">選択</th>
-							<th>ユーザID</th>
-							<th>ユーザ名</th>
-							<th>所属</th>
-							<th>管理者権限</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="item" items="${displayList}">
-							<tr class="clickable-row">
-								<td class="sticky-col"><input type="radio" name="select"
-									value="${item.user_id}"></td>
-								<td>${item.user_id}</td>
-								<td>${item.user_name}</td>
-								<td><c:choose>
-										<c:when test="${item.location_cd == 1}">本社</c:when>
-										<c:when test="${item.location_cd == 2}">仙台支店</c:when>
-										<c:when test="${item.location_cd == 3}">沖縄支店</c:when>
-										<c:when test="${item.location_cd == 4}">福岡支店</c:when>
-										<c:when test="${item.location_cd == 5}">大阪支店</c:when>
-										<c:otherwise>不明</c:otherwise>
-									</c:choose></td>
+			<div class="table-responsive mt-3 w-100">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="sticky-col">選択</th>
+				<th>ユーザID</th>
+				<th>ユーザ名</th>
+				<th>所属</th>
+				<th>管理者権限</th>
+			</tr>
+		</thead>
 
-								<td><c:choose>
-										<c:when test="${item.admin_flg == 1}">あり</c:when>
-										<c:otherwise>なし</c:otherwise>
-									</c:choose></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
+		<tbody>
+			<c:forEach var="item" items="${displayList}">
+				<tr class="clickable-row">
+
+					<td class="sticky-col">
+						<input type="radio" name="select"
+							value="${item.user_id}">
+					</td>
+
+					<td>${item.user_id}</td>
+
+					<td>${item.user_name}</td>
+
+					<td>
+						<c:choose>
+							<c:when test="${item.location_cd == 1}">
+								本社
+							</c:when>
+							<c:when test="${item.location_cd == 2}">
+								仙台支店
+							</c:when>
+							<c:when test="${item.location_cd == 3}">
+								沖縄支店
+							</c:when>
+							<c:when test="${item.location_cd == 4}">
+								福岡支店
+							</c:when>
+							<c:when test="${item.location_cd == 5}">
+								大阪支店
+							</c:when>
+							<c:otherwise>
+								不明
+							</c:otherwise>
+						</c:choose>
+					</td>
+
+					<td>
+						<c:choose>
+							<c:when test="${item.admin_flg == 1}">
+								あり
+							</c:when>
+							<c:otherwise>
+								なし
+							</c:otherwise>
+						</c:choose>
+					</td>
+
+				</tr>
+			</c:forEach>
+		</tbody>
+
+	</table>
+</div>
 		</div>
 	</div>
 
@@ -288,7 +317,6 @@
                     if (radio) {
                         radio.checked = true;
                         const selectedId = radio.value;
-                        document.getElementById('updateEquipmentId').value = selectedId;
                         document.getElementById('deleteEquipmentId').value = selectedId;
                     }
                 });
