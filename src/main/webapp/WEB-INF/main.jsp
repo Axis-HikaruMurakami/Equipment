@@ -36,7 +36,7 @@
     				if (adminFlg == 1) {
         				document.getElementById("adminForm").submit();
     				} else {
-        				alert("あなたは管理者ではありませんよね。なにしてるんですか？？？？");
+    					alert("この画面へは管理者のみアクセスできます。");
     				}
 					}
 				</script>

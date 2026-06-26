@@ -36,68 +36,70 @@ public class AddUser extends HttpServlet {
 
 		// 必須チェック
 
-				if(user_id == null || user_id.trim().isEmpty()) {
+		if (user_id == null || user_id.trim().isEmpty()) {
 
-					request.setAttribute("userIdError", "ユーザIDは必須です。");
+			request.setAttribute("userIdError", "ユーザIDは必須です。");
 
-					request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
-					.forward(request,response);
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
-					return;
-				}
+			return;
+		}
 
+		if (user_name == null || user_name.trim().isEmpty()) {
 
+			request.setAttribute("userNameError", "ユーザ名は必須です。");
 
-				if(user_name == null || user_name.trim().isEmpty()) {
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
-					request.setAttribute("userNameError", "ユーザ名は必須です。");
+			return;
+		}
 
-					request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
-					.forward(request,response);
+		if (password == null || password.trim().isEmpty()) {
 
-					return;
-				}
+			request.setAttribute("passwordError", "パスワードは必須です。");
 
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
+			return;
+		}
 
-				if(password == null || password.trim().isEmpty()) {
+		if (location_cd == null || location_cd.trim().isEmpty()) {
 
-					request.setAttribute("passwordError", "パスワードは必須です。");
+			request.setAttribute("locationError", "所属は必須です。");
 
-					request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
-					.forward(request,response);
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
-					return;
-				}
+			return;
+		}
 
+		if (adminFlgStr == null || adminFlgStr.trim().isEmpty()) {
 
+			request.setAttribute("adminFlgError", "管理者権限は必須です。");
 
-				if(location_cd == null || location_cd.trim().isEmpty()) {
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
-					request.setAttribute("locationError", "所属は必須です。");
+			return;
+		}
 
-					request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
-					.forward(request,response);
+		Integer admin_flg = Integer.parseInt(adminFlgStr);
 
-					return;
-				}
+		//重複チェック
+		if (Userdao.UserCheck(user_id)) {
+			request.setAttribute("userCheckError", "入力されたユーザーIDは既に登録されています。別のユーザーIDを入力してください。");
 
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
 
-
-				if(adminFlgStr == null || adminFlgStr.trim().isEmpty()) {
-
-					request.setAttribute("adminFlgError", "管理者権限は必須です。");
-
-					request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
-					.forward(request,response);
-
-					return;
-				}
-
-				Integer admin_flg = Integer.parseInt(adminFlgStr);
+			return;
+		}
 
 		// DAOで登録
-		Userdao.insertUser(user_id,user_name,password,location_cd,admin_flg);
+		Userdao.insertUser(user_id, user_name, password, location_cd, admin_flg);
 
 		// main.jsp にリダイレクト
 		response.sendRedirect("/Equipment/AdminHome");

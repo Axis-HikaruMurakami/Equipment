@@ -89,6 +89,12 @@ h3 {
 							<c:out value="${userIdError}" />
 						</div>
 					</c:if>
+					
+					<c:if test="${not empty userCheckError}">
+						<div class="text-danger">
+							<c:out value="${userCheckError}" />
+						</div>
+					</c:if>
 
 				</div>
 

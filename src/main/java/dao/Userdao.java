@@ -181,4 +181,34 @@ public class Userdao {
 	    }
 	}
 
+	public static boolean UserCheck(String user_id) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DBManager.getConnection();
+
+	        String sql = "SELECT 1 FROM user WHERE user_id = ?";
+
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, user_id);
+
+	        rs = ps.executeQuery();
+
+	        // 1件でも取得できればユーザーが存在する
+	        return rs.next();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBManager.close(rs);
+	        DBManager.close(ps);
+	        DBManager.close(conn);
+	    }
+
+	    return false;
+	}
+	
+	
 }
