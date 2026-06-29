@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.Connection;
@@ -149,7 +150,7 @@ public class Userdao {
 	    }
 	}
 	
-	public static void insertUser(String user_id, String user_name, String password,
+public static boolean insertUser(String user_id, String user_name, String password,
 	        String location_cd, Integer admin_flg) {
 
 	    Connection conn = null;
@@ -158,8 +159,8 @@ public class Userdao {
 	    try {
 	        conn = DBManager.getConnection();
 
-	        String sql = "INSERT INTO user(user_id,user_name,password,location_cd,admin_flg) "
-	        		+ "VALUES(?,?,?,?,?)";
+	        String sql = "INSERT INTO user(user_id,user_name,password,location_cd,admin_flg,delete_flg) "
+				+ "VALUES(?,?,?,?,?,0)";
 
 	        ps = conn.prepareStatement(sql);
 	        
@@ -170,10 +171,16 @@ public class Userdao {
 	        ps.setInt(5, admin_flg);
 	        
 
-	        ps.executeUpdate();
+	        int affectedRows = ps.executeUpdate();
+	        return affectedRows > 0;
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        if (e instanceof java.sql.SQLIntegrityConstraintViolationException) {
+		    e.printStackTrace();
+		    return false;
+		}
+	    e.printStackTrace();
+	    return false;
 
 	    } finally {
 	        DBManager.close(ps);

@@ -1,3 +1,4 @@
+
 package main;
 
 import java.io.IOException;
@@ -86,7 +87,15 @@ public class AddUser extends HttpServlet {
 			return;
 		}
 
-		Integer admin_flg = Integer.parseInt(adminFlgStr);
+		Integer admin_flg;
+		try {
+			admin_flg = Integer.parseInt(adminFlgStr);
+		} catch (NumberFormatException e) {
+			request.setAttribute("adminFlgError", "管理者権限の値が不正です。");
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
+			return;
+		}
 
 		//重複チェック
 		if (Userdao.UserCheck(user_id)) {
@@ -99,7 +108,13 @@ public class AddUser extends HttpServlet {
 		}
 
 		// DAOで登録
-		Userdao.insertUser(user_id, user_name, password, location_cd, admin_flg);
+		boolean inserted = Userdao.insertUser(user_id, user_name, password, location_cd, admin_flg);
+		if (!inserted) {
+			request.setAttribute("userCheckError", "登録に失敗しました。DB制約に違反しています。");
+			request.getRequestDispatcher("/WEB-INF/adminAddUpdate.jsp")
+					.forward(request, response);
+			return;
+		}
 
 		// main.jsp にリダイレクト
 		response.sendRedirect("/Equipment/AdminHome");
