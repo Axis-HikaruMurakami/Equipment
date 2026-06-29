@@ -154,8 +154,8 @@ public class EquipmentDao {
             ps.setString(8, macAd);
             ps.setDate(9, purchaseDate);
             ps.setInt(10, purchasePrice);
-            ps.setString(11, notes);
-            ps.setString(12, equipmentStatus);
+            ps.setString(11, equipmentStatus);
+            ps.setString(12, notes);
             ps.setBoolean(13, false);
             ps.setString(14, location);
             
